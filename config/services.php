@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'wa' => [
+        'api_key' => env('WA_API_KEY'),
+        'url'     => env('WA_URL'),
+        'sender'  => env('WA_SENDER'),
+    ],
+
 ];

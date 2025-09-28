@@ -6,6 +6,7 @@ use App\Models\JurusanModel;
 use App\Models\PendaftaranDetailModel;
 use App\Models\PendaftaranModel;
 use App\Models\ProfileSekolahModel;
+use App\Models\Verificator;
 use App\Models\SiswaModel;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -284,14 +285,40 @@ class SiswaController extends Controller
 //     ]);
 // });
 
+$hurufAwal = strtoupper(substr($request->nama, 0, 1));
+$verificator = Verificator::with('guru')->where('start_char', '<=', $hurufAwal)
+                          ->where('end_char', '>=', $hurufAwal)
+                          ->first();
 
-   Http::get($url, [
-        'api_key' => $apiKey,
-        'sender'  => '6282324917583', // nomor WA pengirim
-        'number'  => fixNoHp($request->hp), // nomor tujuan
-        'message' => $pesan,
-        'footer'  => 'SPMB SMK Darussalam Karangpucung'
-    ]);
+if ($verificator) {
+    $loginverif = url("/auth/guru");
+    $nohpverif = $verificator->guru->no_hp;
+    $pesan_ke_verificator = "Halo {$verificator->guru->nama},\n\n".
+             "Ada calon siswa yang perlu diverifikasi!\n".
+             "Nama : {$request->nama}\n".
+             "NIK : {$request->nik}\n".
+             "Cepat login dan cek segera\n".
+             "{$loginverif}\n\n";
+              Http::get(config('services.wa.url'), [
+    'api_key' => config('services.wa.api_key'),
+    'sender'  => config('services.wa.sender'),
+    'number'  => fixNoHp($nohpverif),
+    'message' => $pesan_ke_verificator,
+    'footer'  => 'SPMB SMK Darussalam Karangpucung'
+]);
+
+}
+
+// pesan ke siswa
+  Http::get(config('services.wa.url'), [
+    'api_key' => config('services.wa.api_key'),
+    'sender'  => config('services.wa.sender'),
+    'number'  => fixNoHp($request->hp),
+    'message' => $pesan,
+    'footer'  => 'SPMB SMK Darussalam Karangpucung'
+]);
+
+
           $usersiswa = new User();
         $usersiswa->username = $request->nik;
         $usersiswa->password = Hash::make($request->nik);

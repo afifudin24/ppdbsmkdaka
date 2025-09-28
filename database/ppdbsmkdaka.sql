@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Waktu pembuatan: 28 Sep 2025 pada 10.10
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 28 Sep 2025 pada 16.31
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -64,7 +64,7 @@ CREATE TABLE `agenda_kehadiran` (
 
 CREATE TABLE `data_kehadiran` (
   `id` int(11) NOT NULL,
-  `siswa_id` int(11) NOT NULL,
+  `siswa_id` bigint(20) UNSIGNED NOT NULL,
   `status_kehadiran` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -309,6 +309,19 @@ INSERT INTO `users` (`id`, `username`, `password`, `foto_profil`, `role`, `creat
 (9, 'siswa3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
 (18, '3328091205060001', '$2y$12$KhoLv691iD6gYsvNPvSeheIWLFbaj5PrhcHG3UMuehPi1VXPyjKyu', '', 'siswa', '2025-09-28 06:20:38', '2025-09-28 06:20:38');
 
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `verificator`
+--
+
+CREATE TABLE `verificator` (
+  `id` int(11) NOT NULL,
+  `guru_id` bigint(20) UNSIGNED NOT NULL,
+  `start_char` varchar(10) NOT NULL,
+  `end_char` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -325,7 +338,8 @@ ALTER TABLE `admins`
 -- Indeks untuk tabel `data_kehadiran`
 --
 ALTER TABLE `data_kehadiran`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `siswa` (`siswa_id`);
 
 --
 -- Indeks untuk tabel `gurus`
@@ -386,6 +400,12 @@ ALTER TABLE `siswa`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_username_unique` (`username`);
+
+--
+-- Indeks untuk tabel `verificator`
+--
+ALTER TABLE `verificator`
+  ADD KEY `guru` (`guru_id`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
@@ -468,10 +488,22 @@ ALTER TABLE `admins`
   ADD CONSTRAINT `admins_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
+-- Ketidakleluasaan untuk tabel `data_kehadiran`
+--
+ALTER TABLE `data_kehadiran`
+  ADD CONSTRAINT `siswa` FOREIGN KEY (`siswa_id`) REFERENCES `siswa` (`id`);
+
+--
 -- Ketidakleluasaan untuk tabel `gurus`
 --
 ALTER TABLE `gurus`
   ADD CONSTRAINT `gurus_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `verificator`
+--
+ALTER TABLE `verificator`
+  ADD CONSTRAINT `guru` FOREIGN KEY (`guru_id`) REFERENCES `gurus` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
