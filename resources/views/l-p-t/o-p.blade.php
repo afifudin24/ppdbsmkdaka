@@ -11,13 +11,13 @@
 <link
   rel="shortcut icon"
   type="image/png"
-  href="{{ url('assets/files') }}/{{ $sekolah->foto }}"
+  href="{{ url('assets/files') }}/{{ $sekolah->favicon}}"
 />
 
 <!-- Core Css -->
 <link rel="stylesheet" href="{{ url('assets/template') }}/dist/assets/css/styles.css" />
 
-    <title>{{ session()->get('role') }} | {{ $judul }}</title>
+    <title>{{ $judul }}</title>
     <!-- Owl Carousel  -->
     <link
       rel="stylesheet"
@@ -41,151 +41,25 @@
     </div>
 
     <div id="main-wrapper">
-        <!-- Sidebar Start -->
-        <aside class="left-sidebar with-vertical">
-            <div><!-- ---------------------------------- -->
-            <!-- Start Vertical Layout Sidebar -->
-            <!-- ---------------------------------- -->
-                <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="" class="text-nowrap logo-img">
-                        <img src="{{ url('assets/files') }}/{{ $sekolah->logo_dark }}" class="dark-logo" alt="Logo-Dark" style="width: 175px"/>
-                        {{-- <img src="{{ url('assets/template') }}/dist/assets/images/logos/light-logo.png" class="light-logo" alt="Logo-light" style="width: 175px"/> --}}
-                    </a>
-                    <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none" >
-                        <i class="ti ti-x"></i>
-                    </a>
-                </div>
-
-                <!-- ---------------------------------- -->
-                <!-- Sidebar -->
-                <!-- ---------------------------------- -->
-                <nav class="sidebar-nav scroll-sidebar" data-simplebar>
-                    <ul id="sidebarnav">
-                        <!-- ---------------------------------- -->
-                        <!-- Judul Menu -> Home -->
-                        <!-- ---------------------------------- -->
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Home</span>
-                        </li>
-                        @if (session()->get('role') == 'siswa')
-                            @include('l-p-t.n-p-s')
-                        @endif
-                        @if (session()->get('role') == 'admin')
-                            @php
-                                // $user = $sekolah;
-                                $user = session('user');
-                            @endphp
-                            @include('l-p-t.n-p-a')
-                        @endif
-                    </ul>
-                </nav>
-                <!-- ---------------------------------- -->
-                <!-- End Sidebar -->
-                <!-- ---------------------------------- -->
-            </div>
-        </aside>
-        <!-- Sidebar End -->
-
-        <!-- ---------------------------------- -->
-        <!-- Start Vertical Layout Sidebar -->
-        <!-- ---------------------------------- -->
-        <div class="page-wrapper">
+        
+        <div class="">
             <!--  Header Start -->
-            <header class="topbar" style="box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;">
-                <div class="with-vertical"><!-- ---------------------------------- -->
+            <header class="topbar" style="width: 100% !important; box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;">
+                <div class="with-vertical ">
                     <!-- Start Vertical Layout Header -->
                     <!-- ---------------------------------- -->
-                    <nav class="navbar navbar-expand-lg p-0">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse" href="javascript:void(0)" >
-                                    <i class="ti ti-menu-2"></i>
-                                </a>
-                            </li>
-                        </ul>
+                    <nav class="navbar navbar-expand-lg p-0 ">
+                       
 
-                        <div class="d-block d-lg-none">
+                        <div class="d-block">
                             <a href="" class="text-nowrap logo-img">
                                 <img src="{{ url('assets/files') }}/{{ $sekolah->logo_dark }}" class="dark-logo" alt="Logo-Dark" style="width: 175px"/>
                                 {{-- <img src="{{ url('assets/template') }}/dist/assets/images/logos/light-logo.png" class="light-logo" alt="Logo-light" style="width: 175px"/> --}}
                             </a>
                         </div>
 
-                        <a class="navbar-toggler nav-icon-hover p-0 border-0" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="p-2">
-                                <i class="ti ti-dots fs-7"></i>
-                            </span>
-                        </a>
-
-                        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" data-bs-toggle="dropdown" aria-expanded="false" >
-                                            <div class="d-flex align-items-center">
-                                                <div class="user-profile-img">
-                                                    @if(empty($user->foto_profil))
-                                                        <img src="{{ url('assets/files') }}/default.png" class="rounded-circle" width="35" height="35" alt="" />
-                                                    @else
-                                                    <img src="{{ url('assets/files') }}/{{ $user->foto }}" class="rounded-circle" width="35" height="35" alt="" />
-                                                        @endif
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop1" >
-                                            <div class="profile-dropdown position-relative" data-simplebar>
-                                                <div class="py-3 px-7 pb-0">
-                                                    <h5 class="mb-0 fs-5 fw-semibold">User Profile</h5>
-                                                </div>
-                                                <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                                                   @if(empty($user->foto_profil))
-                                                        <img src="{{ url('assets/files') }}/default.png" class="rounded-circle" width="35" height="35" alt="" />
-                                                    @else
-                                                    <img src="{{ url('assets/files') }}/{{ $user->foto }}" class="rounded-circle" width="35" height="35" alt="" />
-                                                        @endif
-                                                    <div class="ms-3">
-                                                        <h5 class="mb-1 fs-3">{{ session('user')->nama}}</h5>
-                                                        <span class="mb-1 d-block" style="text-transform: uppercase">{{ session()->get('role') }}</span>
-                                                        <p class="mb-0 d-flex align-items-center gap-2">
-                                                            @if(session()->get('role') == 'siswa')
-                                                            <i class="ti ti-mail fs-4"></i>{{ session('user')->nik }}
-                                                            @else
-                                                            <i class="ti ti-mail fs-4"></i>{{ session('user')->email }}
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="message-body">
-                                                    @if (session()->get('role') == 'siswa')
-                                                        @php $link = url('/siswa/profile') @endphp
-                                                    @else
-                                                        @php $link = url('/admin/profile') @endphp
-                                                    @endif
-                                                    <a href="{{ $link }}" class="py-8 px-7 mt-8 d-flex align-items-center">
-                                                        <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6" >
-                                                            <img src="{{ url('assets/template') }}/dist/assets/images/svgs/icon-account.svg" alt="" width="24" height="24" />
-                                                        </span>
-                                                        <div class="w-75 d-inline-block v-middle ps-3">
-                                                            <h6 class="mb-1 fs-3 fw-semibold lh-base">My Profile</h6>
-                                                            <span class="fs-2 d-block text-body-secondary">Account Settings</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="d-grid py-4 px-7 pt-8">
-                                                    <div class="upgrade-plan bg-primary-subtle position-relative overflow-hidden rounded-4 p-4 mb-9" >
-                                                        <a href="{{ url('/logout') }}" class="btn btn-outline-primary logout" >Log Out</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!-- ------------------------------- -->
-                                    <!-- end profile Dropdown -->
-                                    <!-- ------------------------------- -->
-                                </ul>
-                            </div>
-                        </div>
+                     
+                    
                     </nav>
                 </div>
             </header>

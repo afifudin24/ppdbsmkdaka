@@ -11,6 +11,11 @@ class PendaftaranModel extends Model
     public $table = 'pendaftaran';
     protected $guarded = ['id'];
 
+    // relasi dengan siswa
+    public function siswa()
+    {
+        return $this->belongsTo(SiswaModel::class, 'siswa_id', 'id');
+    }
     public function detail_pendaftaran() {
         return $this->hasMany(PendaftaranDetailModel::class, 'pendaftaran_id', 'id');
     }

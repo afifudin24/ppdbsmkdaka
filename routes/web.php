@@ -32,6 +32,9 @@ Route::get('/auth', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
+
+
+
 Route::get('/auth/daftar', [AuthController::class, 'daftar']);
 Route::post('/auth/daftar', [AuthController::class, 'store']);
 
@@ -53,9 +56,9 @@ Route::post('/admin/pendaftaran_status/', [AdminPendaftaranController::class, 'p
 Route::get('/admin/pendaftaran_excel/{id}/{status}', [AdminPendaftaranController::class, 'pendaftaran_excel'])->middleware('is_admin');
 
 Route::get('/siswa', [SiswaController::class, 'index'])->middleware('is_siswa');
-Route::get('/siswa/pendaftaran', [SiswaController::class, 'pendaftaran'])->middleware('is_siswa');
-Route::get('/siswa/pendaftaran/{pendaftaran:id}', [SiswaController::class, 'input_pendaftaran'])->middleware('is_siswa');
-Route::post('/siswa/pendaftaran/{pendaftaran:id}', [SiswaController::class, 'store_pendaftaran'])->middleware('is_siswa');
+Route::get('/siswa/pendaftaran', [SiswaController::class, 'pendaftaran']);
+
+
 Route::get('/siswa/pendaftaran_edit/{pendaftaran:id}', [SiswaController::class, 'edit_pendaftaran'])->middleware('is_siswa');
 Route::post('/siswa/pendaftaran_edit/{pendaftaran:id}', [SiswaController::class, 'update_pendaftaran'])->middleware('is_siswa');
 Route::get('/siswa/pendaftaran_detail/{pendaftaran:id}', [SiswaController::class, 'detail_pendaftaran'])->middleware('is_siswa');
@@ -68,4 +71,11 @@ Route::post('/siswa/profile', [SiswaController::class, 'update_profile'])->middl
 Route::post('/siswa/edit_foto', [SiswaController::class, 'edit_foto'])->middleware('is_siswa');
 
 
+// Belum login
+Route::get('/inputdaftar', [SiswaController::class, 'input_pendaftaran']);
 Route::get('/login', [AuthController::class, 'index']);
+Route::get('/auth/siswa', [AuthController::class, 'loginsiswa']);
+Route::get('/auth/guru', [AuthController::class, 'loginguru']);
+
+// siswa daftar
+Route::post('/siswa/pendaftaran', [SiswaController::class, 'store_pendaftaran']);

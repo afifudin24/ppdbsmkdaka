@@ -21,19 +21,16 @@ class SiswaModel extends Model
         'tempat_lahir',
         'tgl_lahir',
         'agama',
-        'anak_ke',
-        'jumlah_saudara',
+   
         'alamat',
         'desa',
         'kecamatan',
         'kabupaten',
         'provinsi',
-        'no_hp',
-        'email',
+        'hp',
+      
         'nama_ayah',
         'nama_ibu',
-        'pekerjaan_ayah',
-        'pekerjaan_ibu',
         'foto',
         'kk',
         'akta',
@@ -49,5 +46,10 @@ class SiswaModel extends Model
     public function guruReferral()
     {
         return $this->belongsTo(Guru::class, 'referral_id', 'id');
+    }
+     public function pendaftaran()
+    {
+        return $this->hasOne(PendaftaranModel::class, 'siswa_id', 'id');
+        // kalau 1 siswa bisa daftar lebih dari sekali pakai hasMany()
     }
 }

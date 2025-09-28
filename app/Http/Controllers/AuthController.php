@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProfileSekolahModel;
 use App\Models\SiswaModel;
 use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -16,6 +17,18 @@ class AuthController extends Controller
         return view('auth.login', [
             'sekolah' => ProfileSekolahModel::first()
         ]);
+    }
+
+    public function loginsiswa(){
+         return view('auth.loginsiswa', [
+            'sekolah' => ProfileSekolahModel::first()
+        ]);
+    }
+
+    public function loginguru(){
+         return view('auth.loginguru', [
+             'sekolah' => ProfileSekolahModel::first() 
+         ]);
     }
 
 
@@ -35,10 +48,13 @@ public function login(Request $request)
 
             // arahkan sesuai role
             if ($user->role === 'siswa') {
+
                 return redirect('/siswa')->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Siswa', 'success'));
             } elseif ($user->role === 'guru') {
                 return redirect('/guru')->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Guru', 'success'));
             } elseif ($user->role === 'admin') {
+                $admin = Admin::with('user')->where('user_id', $user->id)->first();
+                session()->put('user', $admin);
                 return redirect('/admin')->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Admin', 'success'));
             }
         } else {

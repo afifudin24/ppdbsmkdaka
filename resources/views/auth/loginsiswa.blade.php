@@ -18,6 +18,7 @@
 <!-- Core Css -->
 <link rel="stylesheet" href="{{ url('assets/template/dist') }}/assets/css/styles.css" />
 <link rel="stylesheet" href="{{ url('assets/template') }}/dist/assets/libs/sweetalert2/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <title>Login SPMB ONLINE DAKA</title>
 </head>
@@ -27,6 +28,8 @@
   <div class="preloader">
     <img src="{{ url('assets/files') }}/{{ $sekolah->favicon}}" alt="loader" class="lds-ripple img-fluid" />
   </div>
+
+
   <div id="main-wrapper">
     <div class="position-relative overflow-hidden radial-gradient min-vh-100 w-100">
       <div class="position-relative z-index-5">
@@ -48,20 +51,20 @@
                 <form action="{{ url('/auth/login') }}" method="POST">
                   @csrf
                   <div class="mb-3">
-                    <label for="email" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" aria-describedby="username" required>
+                    <label for="email" class="form-label">Username (NIK)</label>
+                    <input type="text" placeholder="contoh: 3301123456789" class="form-control" id="username" name="username" aria-describedby="username" required>
                   </div>
                   <div class="mb-4">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <label for="password" class="form-label">Password (tahun-bulan-tanggal lahir)</label>
+                    <input type="password" placeholder="yyyy-mm-dd contoh: 2000-01-01" class="form-control" id="password" name="password" required>
                   </div>
                   <div class="d-flex align-items-center justify-content-between mb-4">
                     <a class="text-primary fw-medium fs-3" href="">Lupa Password?</a>
                   </div>
                   <button type="submit" class="btn btn-success w-100 py-8 mb-4 rounded-2">Log In</button>
                   <div class="d-flex align-items-center justify-content-center">
-                    <p class="fs-4 mb-0 fw-medium">Belum punya Akun?</p>
-                    <a class="text-primary fw-medium ms-2" href="{{ url('/auth/daftar') }}">Daftar Akun</a>
+                    <p class="fs-4 mb-0 fw-medium">Belum daftar?</p>
+                    <a class="text-primary fw-medium ms-2" href="{{ url('/inputdaftar') }}">Daftar Disini</a>
                   </div>
                 </form>
               </div>
@@ -74,6 +77,15 @@
   <div class="dark-transparent sidebartoggler"></div>
   <!-- Import Js Files -->
 
+    @if (session('success'))
+    <script>
+        Swal.fire({
+            title: 'Berhasil',
+            text: '{{ session('success') }}',
+            icon: 'success',
+        });
+    </script>
+@endif
 <script src="{{ url('assets/template/dist') }}/assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="{{ url('assets/template/dist') }}/assets/js/app.min.js"></script>
 <script src="{{ url('assets/template/dist') }}/assets/js/app.init.js"></script>

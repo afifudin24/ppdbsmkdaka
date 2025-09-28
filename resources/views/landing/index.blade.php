@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme">
   
@@ -7,18 +6,15 @@
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <!-- Favicon icon-->
 <link
   rel="shortcut icon"
   type="image/png"
-  href="{{ url('assets/files') }}/{{ $sekolah->foto }}"
+  href="{{ url('assets/files') }}/{{ $sekolah->favicon}}"
 />
-
 <!-- Core Css -->
 <link rel="stylesheet" href="{{ url('assets/template/dist') }}/assets/css/styles.css" />
-
-    <title>PPDB ONLINE</title>
+    <title>SPMB ONLINE DAKA</title>
     <!-- Owl Carousel  -->
     <link
       rel="stylesheet"
@@ -31,7 +27,6 @@
                 height: 300px;
             }
         }
-
         .side-stick {
             position: absolute;
             width: 3px;
@@ -41,11 +36,10 @@
         }
     </style>
   </head>
-
   <body>
     <!-- Preloader -->
     <div class="preloader">
-        <img src="{{ url('assets/files') }}/{{ $sekolah->foto }}" alt="loader" class="lds-ripple img-fluid"/>
+        <img src="{{ url('assets/files') }}/{{ $sekolah->favicon }}" alt="loader" class="lds-ripple img-fluid"/>
     </div>
     <div id="main-wrapper flex-column">
         
@@ -67,14 +61,17 @@
                                 <a class="nav-link scroll-link" href="#cara_daftar" >Cara Mendaftar</a>
                             </li>
                             <li class="nav-item ms-2">
-                                <a class="btn btn-secondary fs-3 rounded btn-hover-shadow px-3 py-2" href="{{ url('/auth') }}" >Login</a>
+                              
+    <button type="button" class="btn btn-warning w-100 py-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+        Login
+    </button>
+
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
         </header>
-
         <div class="body-wrapper overflow-hidden pt-0">
             <div class="container">
                 <div class="card rounded-2 overflow-hidden">
@@ -83,13 +80,13 @@
                             <img src="{{ url('assets/files') }}/hero-1.jpg" class="card-img-top rounded-0 object-fit-cover my-hero" alt="..." height="600" style="filter: brightness(0.6)">
                         </a>
                         <div class="text-hero position-absolute bottom-0 left-0" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center">
-                            <img src="{{ url('assets/files') }}/{{ $sekolah->foto }}" alt="img-fluid" style="width: 100px;" />
+                            <img src="{{ url('assets/files') }}/{{ $sekolah->favicon }}" alt="img-fluid" style="width: 100px;" />
                             <h2 class="fs-9 fw-semibold text-white" style="text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); text-align: center">
-                                SELAMAT DATANG DI<br>PPDB ONLINE {{ $sekolah->nama }}
+                                SELAMAT DATANG DI<br>SPMB ONLINE {{ $sekolah->nama }}
                             </h2>
                             
-                            <a href="{{ url('/auth/daftar') }}" class="btn btn-secondary">
-                                <i class="ti ti-user"></i> Daftar Akun
+                            <a href="{{ url('/inputdaftar') }}" class="btn btn-success">
+                                <i class="ti ti-user"></i> Daftar Sekarang
                             </a>
                         </div>
                         {{-- <a href="" class="btn btn-primary position-absolute" style="bottom: 40%; left: calc(50% - 37px);">
@@ -97,7 +94,6 @@
                         </a> --}}
                     </div>
                 </div>
-
                 {{-- Gelombang Pendaftaran --}}
                 <div class="row">
                     <div class="col-lg-12">
@@ -148,7 +144,6 @@
                         </div>
                     </div>
                 </div>
-
                 {{-- Cara Mendaftar --}}
                 <div class="row" id="cara_daftar">
                     <div class="col-lg-12">
@@ -165,7 +160,7 @@
                                                     <span class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
                                                     <span class="timeline-badge-border d-block flex-shrink-0"></span>
                                                 </div>
-                                                <div class="timeline-desc fs-4 text-dark mt-n1" style="text-align: justify">Login kedalam aplikasi, silahkan daftar akun terlebih dahulu jika belum mempunyai akun untuk login</div>
+                                                <div class="timeline-desc fs-4 text-dark mt-n1" style="text-align: justify">Akses halaman pendaftaran dengan klik <a class="fs-4 text-primary" href="/inputdaftar">disini</a></div>
                                             </li>
                                             <li class="timeline-item d-flex position-relative overflow-hidden">
                                                 <div class="timeline-time text-dark flex-shrink-0 text-end">Langkah Ke-2</div>
@@ -174,7 +169,7 @@
                                                     <span class="timeline-badge-border d-block flex-shrink-0"></span>
                                                 </div>
                                                 <div class="timeline-desc fs-4 text-dark mt-n1" style="text-align: justify">
-                                                    Setelah login, masuk ke menu <strong>Pendaftaran</strong> untuk langsung mendaftar. Pendaftaran tidak bisa dilakukan jika kuota pendaftaran penuh atau gelombang pendaftaran sudah di tutup
+                                                   Pendaftaran tidak bisa dilakukan jika kuota pendaftaran penuh atau gelombang pendaftaran sudah di tutup.
                                                 </div>
                                             </li>
                                             <li class="timeline-item d-flex position-relative overflow-hidden">
@@ -183,7 +178,7 @@
                                                     <span class="timeline-badge border-2 border border-success flex-shrink-0 my-8"></span>
                                                     <span class="timeline-badge-border d-block flex-shrink-0"></span>
                                                 </div>
-                                                <div class="timeline-desc fs-4 text-dark mt-n1" style="text-align: justify">Silahkan isi formulir pendaftaran dengan data yang valid sesuai dengan yang data persyaratan pendaftaran</div>
+                                                <div class="timeline-desc fs-4 text-dark mt-n1" style="text-align: justify">Silahkan isi formulir pendaftaran dengan data yang valid sesuai dengan yang data persyaratan pendaftaran.</div>
                                             </li>
                                             <li class="timeline-item d-flex position-relative overflow-hidden">
                                                 <div class="timeline-time text-dark flex-shrink-0 text-end">Langkah Ke-4</div>
@@ -192,8 +187,7 @@
                                                     <span class="timeline-badge-border d-block flex-shrink-0"></span>
                                                 </div>
                                                 <div class="timeline-desc fs-4 text-dark mt-n1" style="text-align: justify">
-                                                    Setelah mengisi formulir, data pendaftaran kamu sedang di periksa petugas, cek secara berkala untuk memastikan apakah status pendaftaran kamu diterima atau ditolak
-                                                </div>
+                                                 Setelah mengisi formulir, data pendaftaran kamu sedang di periksa petugas, jika data telah diverifikasi, kamu akan mendapat notifikasi whatsApp.
                                             </li>
                                             <li class="timeline-item d-flex position-relative overflow-hidden">
                                                 <div class="timeline-time text-dark flex-shrink-0 text-end">Langkah Ke-5</div>
@@ -201,11 +195,9 @@
                                                     <span class="timeline-badge border-2 border border-danger flex-shrink-0 my-8"></span>
                                                     <span class="timeline-badge-border d-block flex-shrink-0"></span>
                                                 </div>
-
                                                 <div class="timeline-desc fs-4 text-dark mt-n1" style="text-align: justify">
-                                                    Jika status pendaftaran <strong>Diterima</strong>, cetak form yang sudah kamu isi dan serahkan kepada petugas sekolah di hari yang sudah di tentukan
+                                                    Cek secara berkala dengan <a class="fs-4 text-primary" href="/loginsiswa">login</a> ke dashboard siswa. Jika status pendaftaran <strong>Diterima</strong>, silahkan tunggu informasi berikutnya.
                                                 </div>
-
                                             </li>
                                         </ul>
                                     </div>
@@ -214,7 +206,6 @@
                         </div>
                     </div>
                 </div>
-
                 {{-- Pertanyaan Umum --}}
                 <div class="row">
                     <div class="col-lg-12">
@@ -229,17 +220,22 @@
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header" id="flush-headingOne">
                                                     <button class="accordion-button collapsed fs-4 fw-semibold shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                                        Apakah harus membuat akun untuk mendaftar?
+                                                    Apakah bisa login ke sistem setelah mendaftar?
                                                     </button>
                                                 </h2>
                                                 <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                                     <div class="accordion-body fs-4 fw-normal">
-                                                        Iya harus, agar:
+                                                       Ya, bisa. Setelah Anda berhasil mengisi formulir pendaftaran, sistem akan otomatis membuatkan akun. Dengan akun ini Anda dapat:
                                                         <ol>
-                                                            <li>formulir yang dikirim masih bisa di edit jika ada kesalahan</li>
-                                                            <li>Melihat pengumuman lulus & tidak lulus. proses pengecekan data pendaftaran oleh petugas bisa melebihi beberapa hari dikarenakan banyaknya peserta, jadi calon siswa bisa login ke aplikasi untuk mengecek secara berkala</li>
-                                                            <li>Bisa melakukan daftar ulang. jika pendaftaran tidak diterima, anda masih bisa daftar ulang di gelombang pendaftaran selanjutnya</li>
+                                                           <li><strong>Mengedit formulir</strong> jika ada kesalahan data yang sudah dikirim.</li>
+  <li><strong>Melihat pengumuman hasil seleksi</strong> (lulus / tidak lulus) secara berkala, karena proses verifikasi data oleh petugas bisa memakan waktu beberapa hari.</li>
+  <li><strong>Melakukan daftar ulang</strong>. Jika tidak diterima pada gelombang pertama, Anda masih bisa login dan mendaftar ulang di gelombang selanjutnya.</li>
                                                         </ol>
+                                                        <p>
+  🔑 <strong>Cara Login:</strong><br>
+  Username: <em>NIK (Nomor Induk Kependudukan)</em><br>
+  Password: <em>Tanggal lahir dengan format tahun-bulan-tanggal (contoh: 2008-09-15)</em>
+</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -262,7 +258,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row" id="#kontak_info">
                     <div class="col-lg-12">
                         <div class="card bg-primary-subtle rounded-2">
@@ -294,28 +289,46 @@
                         <a class="nav-link scroll-link" href="#cara_daftar" >Cara Mendaftar</a>
                     </li>
                 </ul>
-                <form class="d-flex mt-3" role="search">
-                    <a href="{{ url('/auth') }}" class="btn btn-primary w-100 py-2">Login</a>
-                </form>
+            <!-- Tombol Login -->
+<form class="d-flex mt-3" role="search">
+    <button type="button" class="btn btn-primary w-100 py-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+        Login
+    </button>
+</form>
             </div>
         </div>
     </div>
+
+    <!-- Modal Pilihan Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title text-white" id="loginModalLabel">Pilih Login</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="mb-4">Silakan pilih login sesuai peran Anda:</p>
+        <div class="d-grid gap-3">
+          <a href="{{ url('/auth/guru') }}" class="btn btn-outline-warning py-2">👨‍🏫 Login Sebagai Guru</a>
+          <a href="{{ url('/auth/siswa') }}" class="btn btn-outline-success py-2">👩‍🎓 Login Sebagai Calon Siswa</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
     <div class="dark-transparent sidebartoggler"></div>
     <!-- Import Js Files -->
-
     <script src="{{ url('assets/template/dist') }}/assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="{{ url('assets/template/dist') }}/assets/js/app.min.js"></script>
     <script src="{{ url('assets/template/dist') }}/assets/js/app.init.js"></script>
     <script src="{{ url('assets/template/dist') }}/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url('assets/template/dist') }}/assets/libs/simplebar/dist/simplebar.min.js"></script>
-
     <script src="{{ url('assets/template/dist') }}/assets/js/sidebarmenu.js"></script>
     <script src="{{ url('assets/template/dist') }}/assets/js/theme.js"></script>
-
     <script src="{{ url('assets/template/dist') }}/assets/libs/owl.carousel/dist/owl.carousel.min.js"></script>
     <script src="{{ url('assets/template/dist') }}/assets/libs/aos/dist/aos.js"></script>
     <script src="{{ url('assets/template/dist') }}/assets/js/landingpage/landingpage.js"></script>
   </body>
-
 <!-- Mirrored from bootstrapdemos.adminmart.com/modernize/dist/landingpage/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 15 Feb 2024 06:22:57 GMT -->
 </html>

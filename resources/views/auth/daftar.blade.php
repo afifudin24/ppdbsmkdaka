@@ -19,13 +19,13 @@
 <link rel="stylesheet" href="{{ url('assets/template/dist') }}/assets/css/styles.css" />
 <link rel="stylesheet" href="{{ url('assets/template') }}/dist/assets/libs/sweetalert2/dist/sweetalert2.min.css">
 
-  <title>Dfatar Akun PPDB ONLINE</title>
+  <title>Daftar Akun SPMB DAKA Online</title>
 </head>
 
 <body>
   <!-- Preloader -->
   <div class="preloader">
-    <img src="{{ url('assets/files') }}/{{ $sekolah->foto }}" alt="loader" class="lds-ripple img-fluid" />
+    <img src="{{ url('assets/files') }}/{{ $sekolah->favicon }}" alt="loader" class="lds-ripple img-fluid" />
   </div>
   <div id="main-wrapper">
     <div class="position-relative overflow-hidden radial-gradient min-vh-100 w-100">
@@ -43,8 +43,8 @@
           <div class="col-xl-5 col-xxl-4">
             <div class="authentication-login min-vh-100 bg-body row justify-content-center align-items-center p-4">
               <div class="auth-max-width col-sm-8 col-md-6 col-xl-7 px-4">
-                <h2 class="mb-1 fs-7 fw-bolder">Selamat Datang di PPDB ONLINE</h2>
-                <p class="mb-6">Daftar Akun PPDB</p>
+                <h2 class="mb-1 fs-7 fw-bolder">Selamat Datang di SPMB ONLINE DAKA</h2>
+                <p class="mb-6">Daftar Sekarang</p>
                 <form action="{{ url('/auth/daftar') }}" method="POST">
                     @csrf
                   <div class="mb-3">

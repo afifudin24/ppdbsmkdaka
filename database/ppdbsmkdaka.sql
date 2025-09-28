@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Waktu pembuatan: 27 Sep 2025 pada 06.38
+-- Waktu pembuatan: 28 Sep 2025 pada 10.10
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -36,6 +36,37 @@ CREATE TABLE `admins` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `admins`
+--
+
+INSERT INTO `admins` (`id`, `user_id`, `nama`, `email`, `no_hp`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Afif Keren', 'afifrider507@gmail.com', '6281548769365', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `agenda_kehadiran`
+--
+
+CREATE TABLE `agenda_kehadiran` (
+  `id` int(11) NOT NULL,
+  `nama_agenda` varchar(255) NOT NULL,
+  `tanggal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `data_kehadiran`
+--
+
+CREATE TABLE `data_kehadiran` (
+  `id` int(11) NOT NULL,
+  `siswa_id` int(11) NOT NULL,
+  `status_kehadiran` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -71,10 +102,11 @@ CREATE TABLE `jurusan` (
 --
 
 INSERT INTO `jurusan` (`id`, `nama`) VALUES
-(1, 'IPA (Ilmu Pengetahuan Alam)'),
-(2, 'IPS (Ilmu Pengetahuan Soasial)'),
-(3, 'Teknik Alat Berat'),
-(5, 'Office Management');
+(1, 'Teknik Komputer dan Jaringan'),
+(2, 'Teknik Kendaraan Ringan'),
+(3, 'Teknik Sepeda Motor'),
+(5, 'Akuntansi'),
+(6, 'Pemasaran');
 
 -- --------------------------------------------------------
 
@@ -142,6 +174,13 @@ CREATE TABLE `pendaftaran_detail` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `pendaftaran_detail`
+--
+
+INSERT INTO `pendaftaran_detail` (`id`, `pendaftaran_id`, `siswa_id`, `status`, `notif`, `created_at`, `updated_at`) VALUES
+(2, 1, 2, 0, 0, '2025-09-28 06:20:38', '2025-09-28 06:20:38');
+
 -- --------------------------------------------------------
 
 --
@@ -183,15 +222,16 @@ CREATE TABLE `profile_sekolah` (
   `alamat` longtext NOT NULL,
   `telpon` varchar(255) NOT NULL,
   `website` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL
+  `email` varchar(255) NOT NULL,
+  `favicon` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data untuk tabel `profile_sekolah`
 --
 
-INSERT INTO `profile_sekolah` (`id`, `username`, `password`, `nama`, `kepsek`, `nip_kepsek`, `ttd_kepsek`, `panitia`, `nip_panitia`, `ttd_panitia`, `foto`, `logo_dark`, `alamat`, `telpon`, `website`, `email`) VALUES
-(1, 'admin', '123', 'SMK Darussalam Karangpucung', 'Dr. Risa Fita Hapsari, S.Pd, M.M.', '92736826181292', 'ttd-kepsek.png', 'Waryanto, S.Pd', '-', 'kAdnfChXL3w4bigPJBPd08vkWoplcbqiC2BweGfC.png', 'OzHwuS7i18XXpyQ5hycLASimLlF9nqaBh2wgcJWs.png', 'W8swQZQmXEHKZxZyiWMjQ4jlmPLAawk3I1NSPGTD.png', 'Jl. Raya Karangpucung-Majenang, Km. 02 No. 08, Karangpucung, Cilacap Regency, Central Java 53255', '021-4645-7878', 'smkdaka.sch.id', 'smkdkrpc@gmail.com');
+INSERT INTO `profile_sekolah` (`id`, `username`, `password`, `nama`, `kepsek`, `nip_kepsek`, `ttd_kepsek`, `panitia`, `nip_panitia`, `ttd_panitia`, `foto`, `logo_dark`, `alamat`, `telpon`, `website`, `email`, `favicon`) VALUES
+(1, 'admin', '123', 'SMK Darussalam Karangpucung', 'Dr. Risa Fita Hapsari, S.Pd, M.M.', '92736826181292', 'ttd-kepsek.png', 'Waryanto, S.Pd', '-', 'kAdnfChXL3w4bigPJBPd08vkWoplcbqiC2BweGfC.png', 'spmbdaka.png', 'spmbdaka.png', 'Jl. Raya Karangpucung-Majenang, Km. 02 No. 08, Karangpucung, Cilacap Regency, Central Java 53255', '021-4645-7878', 'smkdaka.sch.id', 'smkdkrpc@gmail.com', 'OzHwuS7i18XXpyQ5hycLASimLlF9nqaBh2wgcJWs.png');
 
 -- --------------------------------------------------------
 
@@ -203,17 +243,13 @@ CREATE TABLE `siswa` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `no_regis` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `referral_id` int(11) NOT NULL,
+  `referral_id` int(11) DEFAULT NULL,
   `nama` varchar(255) DEFAULT NULL,
-  `nisn` varchar(255) DEFAULT NULL,
-  `nis` varchar(255) DEFAULT NULL,
+  `nik` varchar(255) DEFAULT NULL,
   `jurusan` varchar(255) DEFAULT NULL,
   `jenis_kelamin` varchar(255) DEFAULT NULL,
   `tempat_lahir` varchar(255) DEFAULT NULL,
   `tgl_lahir` varchar(255) DEFAULT NULL,
-  `agama` varchar(255) DEFAULT NULL,
-  `anak_ke` int(11) DEFAULT NULL,
-  `jumlah_saudara` int(11) DEFAULT NULL,
   `hp` varchar(255) DEFAULT NULL,
   `alamat` varchar(255) DEFAULT NULL,
   `desa` varchar(255) DEFAULT NULL,
@@ -228,10 +264,18 @@ CREATE TABLE `siswa` (
   `akta` varchar(255) NOT NULL,
   `kk` varchar(255) NOT NULL,
   `kip` varchar(255) DEFAULT NULL,
-  `suket` varchar(255) NOT NULL,
+  `suket` varchar(255) DEFAULT NULL,
+  `qr_code` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `siswa`
+--
+
+INSERT INTO `siswa` (`id`, `no_regis`, `user_id`, `referral_id`, `nama`, `nik`, `jurusan`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `hp`, `alamat`, `desa`, `kecamatan`, `kabupaten`, `provinsi`, `no_kk`, `nama_ayah`, `nama_ibu`, `sekolah_asal`, `foto`, `akta`, `kk`, `kip`, `suket`, `qr_code`, `created_at`, `updated_at`) VALUES
+(2, NULL, 18, NULL, 'Afif Waliyudin', NULL, 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', NULL, 'tukiem', 'tukirno', NULL, 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', NULL, NULL, '2025-09-28 06:20:38', '2025-09-28 06:20:38');
 
 -- --------------------------------------------------------
 
@@ -243,6 +287,7 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `foto_profil` varchar(255) NOT NULL,
   `role` enum('admin','guru','siswa') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -252,16 +297,17 @@ CREATE TABLE `users` (
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'admin1', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', 'admin', '2025-09-27 03:00:56', '2025-09-27 03:00:56'),
-(2, 'admin2', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', 'admin', '2025-09-27 03:00:56', '2025-09-27 03:00:56'),
-(3, 'admin3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', 'admin', '2025-09-27 03:00:56', '2025-09-27 03:00:56'),
-(4, 'guru1', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', 'guru', '2025-09-27 03:00:57', '2025-09-27 03:00:57'),
-(5, 'guru2', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', 'guru', '2025-09-27 03:00:57', '2025-09-27 03:00:57'),
-(6, 'guru3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', 'guru', '2025-09-27 03:00:58', '2025-09-27 03:00:58'),
-(7, 'siswa1', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', 'siswa', '2025-09-27 03:00:58', '2025-09-27 03:00:58'),
-(8, 'siswa2', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
-(9, 'siswa3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59');
+INSERT INTO `users` (`id`, `username`, `password`, `foto_profil`, `role`, `created_at`, `updated_at`) VALUES
+(1, 'admin1', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'admin', '2025-09-27 03:00:56', '2025-09-27 03:00:56'),
+(2, 'admin2', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'admin', '2025-09-27 03:00:56', '2025-09-27 03:00:56'),
+(3, 'admin3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'admin', '2025-09-27 03:00:56', '2025-09-27 03:00:56'),
+(4, 'guru1', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'guru', '2025-09-27 03:00:57', '2025-09-27 03:00:57'),
+(5, 'guru2', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'guru', '2025-09-27 03:00:57', '2025-09-27 03:00:57'),
+(6, 'guru3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'guru', '2025-09-27 03:00:58', '2025-09-27 03:00:58'),
+(7, 'siswa1', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:58', '2025-09-27 03:00:58'),
+(8, 'siswa2', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
+(9, 'siswa3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
+(18, '3328091205060001', '$2y$12$KhoLv691iD6gYsvNPvSeheIWLFbaj5PrhcHG3UMuehPi1VXPyjKyu', '', 'siswa', '2025-09-28 06:20:38', '2025-09-28 06:20:38');
 
 --
 -- Indexes for dumped tables
@@ -274,6 +320,12 @@ ALTER TABLE `admins`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `admins_email_unique` (`email`),
   ADD KEY `admins_user_id_foreign` (`user_id`);
+
+--
+-- Indeks untuk tabel `data_kehadiran`
+--
+ALTER TABLE `data_kehadiran`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `gurus`
@@ -343,7 +395,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `data_kehadiran`
+--
+ALTER TABLE `data_kehadiran`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `gurus`
@@ -355,7 +413,7 @@ ALTER TABLE `gurus`
 -- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -373,7 +431,7 @@ ALTER TABLE `pendaftaran`
 -- AUTO_INCREMENT untuk tabel `pendaftaran_detail`
 --
 ALTER TABLE `pendaftaran_detail`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
@@ -391,13 +449,13 @@ ALTER TABLE `profile_sekolah`
 -- AUTO_INCREMENT untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

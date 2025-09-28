@@ -7,9 +7,12 @@ use App\Models\PendaftaranDetailModel;
 use App\Models\PendaftaranModel;
 use App\Models\ProfileSekolahModel;
 use App\Models\SiswaModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Hash;
 
 class SiswaController extends Controller
 {
@@ -165,83 +168,200 @@ class SiswaController extends Controller
             'jurusan' => JurusanModel::all()
         ]);
     }
-    public function store_pendaftaran(Request $request, PendaftaranModel $pendaftaran)
+    public function store_pendaftaran(Request $request)
     {
-        $data = [
-            'nama' => $request->nama,
-            'nisn' => $request->nisn,
-            'nis' => $request->nis,
-            'jurusan' => $request->jurusan,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
-            'agama' => $request->agama,
-            'anak_ke' => $request->anak_ke,
-            'jumlah_saudara' => $request->jumlah_saudara,
-            'hobi' => $request->hobi,
-            'cita_cita' => $request->cita_cita,
-            'hp' => $request->hp,
-            'email' => $request->email,
-            'jenis_tempat_tinggal' => $request->jenis_tempat_tinggal,
-            'alamat' => $request->alamat,
-            'desa' => $request->desa,
-            'kecamatan' => $request->kecamatan,
-            'kabupaten' => $request->kabupaten,
-            'provinsi' => $request->provinsi,
-            'pos' => $request->pos,
-            'jarak' => $request->jarak,
-            'transportasi' => $request->transportasi,
-            'no_kk' => $request->no_kk,
-            'kepala_kk' => $request->kepala_kk,
-            'nama_ayah' => $request->nama_ayah,
-            'nik_ayah' => $request->nik_ayah,
-            'tahun_lahir_ayah' => $request->tahun_lahir_ayah,
-            'pekerjaan_ayah' => $request->pekerjaan_ayah,
-            'penghasilan_ayah' => $request->penghasilan_ayah,
-            'pendidikan_ayah' => $request->pendidikan_ayah,
-            'nama_ibu' => $request->nama_ibu,
-            'nik_ibu' => $request->nik_ibu,
-            'tahun_lahir_ibu' => $request->tahun_lahir_ibu,
-            'pekerjaan_ibu' => $request->pekerjaan_ibu,
-            'penghasilan_ibu' => $request->penghasilan_ibu,
-            'pendidikan_ibu' => $request->pendidikan_ibu,
-            'sekolah_asal' => $request->sekolah_asal,
-            'jenjang_sekolah' => $request->jenjang_sekolah,
-            'npsn_sekolah' => $request->npsn_sekolah,
-            'foto' => $request->foto_lama,
-        ];
+        $pendaftaran = PendaftaranModel::where('tutup', 0)->first();
 
-        if ($request->file('foto')) {
-            if ($request->gambar_lama) {
-                if ($request->gambar_lama != 'default.png') {
-                    Storage::delete('assets/files/' . $request->gambar_lama);
-                }
-            }
-            $data['foto'] = str_replace('assets/files/', '', $request->file('foto')->store('assets/files'));
-        }
+        function fixNoHp($nohp)
+{
+    // Hilangkan semua karakter non-angka
+    $nohp = preg_replace('/[^0-9]/', '', $nohp);
+
+    // Jika diawali "0", ganti dengan "62"
+    if (substr($nohp, 0, 1) === '0') {
+        $nohp = '62' . substr($nohp, 1);
+    }
+
+    // Jika diawali "62", biarkan
+    elseif (substr($nohp, 0, 2) === '62') {
+        $nohp = $nohp;
+    }
+
+    // Jika diawali "8" langsung, tambahkan "62"
+    elseif (substr($nohp, 0, 1) === '8') {
+        $nohp = '62' . $nohp;
+    }
+
+    return $nohp;
+}
+
+    $request->validate([
+        'nama'          => 'required|string|max:100',
+        'nik'           => 'required|digits:16|numeric|unique:siswa,nik',
+        'referral_id'   => 'nullable|string|max:50',
+        'jurusan'       => 'required|string',
+        'jenis_kelamin' => 'required|in:L,P',
+        'tempat_lahir'  => 'required|string|max:100',
+        'tgl_lahir'     => 'required|date',
+        'hp' => 'required|numeric|digits_between:10,15',
+        'alamat'        => 'required|string|max:255',
+        'desa'          => 'required|string|max:100',
+        'kecamatan'     => 'required|string|max:100',
+        'kabupaten'     => 'required|string|max:100',
+        'provinsi'      => 'required|string|max:100',
+        'no_kk'         => 'required|digits:16|numeric',
+        'nama_ayah'     => 'required|string|max:100',
+        'nama_ibu'      => 'required|string|max:100',
+        'sekolah_asal'  => 'required|string|max:150',
+      
+    'foto'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    'kk'            => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
+    'akta'          => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
+    'kip'           => 'nullable|mimes:jpg,jpeg,png,pdf|max:2048',
+    ], [
+        'nama.required'          => 'Nama wajib diisi.',
+        'nik.required'           => 'NIK wajib diisi.',
+        'nik.digits'             => 'NIK harus terdiri dari 16 digit angka.',
+        'nik.numeric'            => 'NIK hanya boleh berisi angka.',
+        'nik.unique'             => 'NIK sudah terdaftar.',
+        'jurusan.required'       => 'Jurusan wajib dipilih.',
+        'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+        'jenis_kelamin.in'       => 'Jenis kelamin hanya boleh L atau P.',
+        'tempat_lahir.required'  => 'Tempat lahir wajib diisi.',
+        'tgl_lahir.required'     => 'Tanggal lahir wajib diisi.',
+        'tgl_lahir.date'         => 'Format tanggal lahir tidak valid.',
+        'hp.required'            => 'Nomor HP wajib diisi.',
+        'hp.regex'               => 'Format nomor HP tidak valid.',
+        'alamat.required'        => 'Alamat wajib diisi.',
+        'desa.required'          => 'Nama desa wajib diisi.',
+        'kecamatan.required'     => 'Nama kecamatan wajib diisi.',
+        'kabupaten.required'     => 'Nama kabupaten wajib diisi.',
+        'provinsi.required'      => 'Nama provinsi wajib diisi.',
+        'no_kk.required'         => 'Nomor KK wajib diisi.',
+        'no_kk.digits'           => 'Nomor KK harus terdiri dari 16 digit angka.',
+        'no_kk.numeric'          => 'Nomor KK hanya boleh berisi angka.',
+        'nama_ayah.required'     => 'Nama ayah wajib diisi.',
+        'nama_ibu.required'      => 'Nama ibu wajib diisi.',
+        'sekolah_asal.required'  => 'Sekolah asal wajib diisi.',
+       'kk.required'   => 'Kartu Keluarga (KK) wajib diupload.',
+    'kk.mimes'      => 'KK harus berupa file gambar (jpg, jpeg, png) atau PDF.',
+    'kk.max'        => 'Ukuran file KK maksimal 2 MB.',
+
+    'akta.required' => 'Akta Kelahiran wajib diupload.',
+    'akta.mimes'    => 'Akta harus berupa file gambar (jpg, jpeg, png) atau PDF.',
+    'akta.max'      => 'Ukuran file Akta maksimal 2 MB.',
+
+    'kip.mimes'     => 'KIP harus berupa file gambar (jpg, jpeg, png) atau PDF.',
+    'kip.max'       => 'Ukuran file KIP maksimal 2 MB.',
+
+    'foto.image'    => 'File foto harus berupa gambar.',
+    'foto.mimes'    => 'Foto hanya boleh berformat jpg, jpeg, atau png.',
+    'foto.max'      => 'Ukuran foto maksimal 2 MB.',
+    ]);
+
+
+    $loginUrl = url("/auth/siswa");
+
+    // Pesan WA template
+    $pesan = "Halo {$request->nama},\n\n".
+             "Terima kasih sudah mendaftar di SMK Darussalam Karangpucung!\n".
+             "Klik link berikut untuk login ke akun kamu:\n".
+             "{$loginUrl}\n\n".
+             "Username : {$request->nik} \n" .
+             "Passsword : {$request->tgl_lahir} \n" .
+             "Jika kamu tidak merasa mendaftar, abaikan pesan ini.";
+
+     $apiKey = "4laPLFDacDyEBesqop0KVzRFcoz0Hl";
+    $url = "https://wa.smkdaka.sch.id/send-message";
+    
+//     dispatch(function () use ($url, $apiKey, $request, $pesan) {
+//     Http::get($url, [
+//         'api_key' => $apiKey,
+//         'sender'  => '6282324917583',
+//         'number'  => $request->no_hp,
+//         'message' => $pesan,
+//         'footer'  => 'Saku Bijak'
+//     ]);
+// });
+
+
+   Http::get($url, [
+        'api_key' => $apiKey,
+        'sender'  => '6282324917583', // nomor WA pengirim
+        'number'  => fixNoHp($request->hp), // nomor tujuan
+        'message' => $pesan,
+        'footer'  => 'SPMB SMK Darussalam Karangpucung'
+    ]);
+          $usersiswa = new User();
+        $usersiswa->username = $request->nik;
+        $usersiswa->password = Hash::make($request->nik);
+        $usersiswa->role = 'siswa';
+        $usersiswa->save();
+
+    $data = [
+        'nama'          => $request->nama,
+        'user_id'       => $usersiswa->id,
+        'nik'           => $request->nik,
+        'referral_id'   => $request->referral_id,
+        'jurusan'       => $request->jurusan,
+        'jenis_kelamin' => $request->jenis_kelamin,
+        'tempat_lahir'  => $request->tempat_lahir,
+        'tgl_lahir'     => $request->tgl_lahir,
+        'hp'            => fixNoHp($request->hp),
+        'alamat'        => $request->alamat,
+        'desa'          => $request->desa,
+        'kecamatan'     => $request->kecamatan,
+        'kabupaten'     => $request->kabupaten,
+        'provinsi'      => $request->provinsi, 
+        'no_kk'         => $request->no_kk,
+        'nama_ayah'     => $request->nama_ayah,
+        'nama_ibu'      => $request->nama_ibu,
+        'sekolah_asal'  => $request->sekolah_asal,   
+        // 'foto'          => $request->foto,
+        // 'kk'            => $request->kk,
+        // 'akta'          => $request->akta,
+        // 'kip'           => $request->kip
+    ];
+
+    
+    
+
+    // === Upload file ===
+    if ($request->hasFile('foto')) {
+        $path = $request->file('foto')->store('foto', 'public');
+        $data['foto'] = basename($path);
+    }
+
+    if ($request->hasFile('kk')) {
+        $path = $request->file('kk')->store('kk', 'public');
+        $data['kk'] = basename($path);
+    }
+
+    if ($request->hasFile('akta')) {
+        $path = $request->file('akta')->store('akta', 'public');
+        $data['akta'] = basename($path);
+    }
+
+    if ($request->hasFile('kip')) {
+        $path = $request->file('kip')->store('kip', 'public');
+        $data['kip'] = basename($path);
+    }
+
+    // === Simpan ke database ===
+    $siswa = SiswaModel::create($data);
 
         $data_pendaftaran = [
             'pendaftaran_id' => $pendaftaran->id,
-            'siswa_id' => session()->get('id'),
+            'siswa_id' => $siswa->id,
             'status' => 0,
             'notif' => 0,
         ];
 
-        SiswaModel::where('id', session()->get('id'))
-            ->update($data);
+       
         PendaftaranDetailModel::create($data_pendaftaran);
 
-        return redirect('/siswa/pendaftaran')->with('pesan', "
-            <script>
-                Swal.fire(
-                    {
-                        title: 'Berhasil',
-                        text: 'Form Pendaftaran dikirim',
-                        icon: 'success',
-                    }
-                );
-            </script>
-        ");
+      return redirect('/auth/siswa')->with('success', 'Pendaftaran Berhasil! Silahkan Login');
+
     }
 
     public function edit_pendaftaran(PendaftaranModel $pendaftaran)
@@ -313,10 +433,22 @@ class SiswaController extends Controller
             $data['foto'] = str_replace('assets/files/', '', $request->file('foto')->store('assets/files'));
         }
 
+        if ($request->hasFile('kk')) {
+    $data['kk'] = $request->file('kk')->store('kk', 'public');
+}
+
+if ($request->hasFile('akta')) {
+    $data['akta'] = $request->file('akta')->store('akta', 'public');
+}
+
+if ($request->hasFile('kip')) {
+    $data['kip'] = $request->file('kip')->store('kip', 'public');
+}
+
         SiswaModel::where('id', session()->get('id'))
             ->update($data);
 
-        return redirect('/siswa/pendaftaran')->with('pesan', "
+        return redirect('/inputdaftar')->with('pesan', "
             <script>
                 Swal.fire(
                     {
