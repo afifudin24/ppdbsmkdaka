@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Verificator extends Model
+class SeksiPresensi extends Model
 {
     use HasFactory;
-    protected $table = 'verificator';
-       protected $fillable = [
-        'guru_id',
-        'start_char',
-        'end_char',
+    protected $table = 'seksi_presensi';
+    protected $fillable = [
+        'guru_id'
     ];
 
-
-    public function guru()
+     public function guru()
 {
     return $this->belongsTo(Guru::class, 'guru_id');
 }

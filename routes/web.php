@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminJurusanController;
 use App\Http\Controllers\AdminPendaftaranController;
 use App\Http\Controllers\AdminSiswaController;
+use App\Http\Controllers\AdminGuruController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SiswaController;
 use App\Models\PendaftaranModel;
@@ -47,6 +48,22 @@ Route::post('/admin/profile/info', [AdminController::class, 'profile_info'])->mi
 Route::resource('/admin/jurusan', AdminJurusanController::class)->middleware('is_admin');
 
 Route::resource('/admin/siswa', AdminSiswaController::class)->middleware('is_admin');
+
+// Guru
+Route::resource('/admin/guru', AdminGuruController::class)->middleware('is_admin');
+// verificator
+Route::get('/admin/verificator', [AdminGuruController::class, 'verificator'])
+    ->middleware('is_admin');
+Route::post('/admin/store_verificator', [AdminGuruController::class, 'store_verificator'])
+    ->middleware('is_admin');
+Route::delete('/admin/delete_verificator/{id}', [AdminGuruController::class, 'delete_verificator'])->middleware('is_admin');
+
+// seksi presensi
+Route::get('/admin/seksi_presensi', [AdminGuruController::class, 'seksi_presensi'])
+    ->middleware('is_admin');
+Route::post('/admin/store_seksi_presensi', [AdminGuruController::class, 'store_seksi_presensi'])
+    ->middleware('is_admin');
+Route::delete('/admin/delete_seksi_presensi/{id}', [AdminGuruController::class, 'delete_seksi_presensi'])->middleware('is_admin');
 
 Route::resource('/admin/pendaftaran', AdminPendaftaranController::class)->middleware('is_admin');
 Route::get('/admin/pendaftaran_siswa/{id_pendaftaran}/{id_siswa}', [AdminPendaftaranController::class, 'show_siswa'])->middleware('is_admin');

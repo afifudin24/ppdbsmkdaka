@@ -171,6 +171,9 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
     ])->toArray(),
 
+    'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
+
+
     /*
     |--------------------------------------------------------------------------
     | Class Aliases

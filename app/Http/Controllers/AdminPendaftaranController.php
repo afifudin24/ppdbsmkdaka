@@ -8,6 +8,8 @@ use App\Models\PendaftaranModel;
 use App\Models\ProfileSekolahModel;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class AdminPendaftaranController extends Controller
 {
@@ -86,12 +88,13 @@ class AdminPendaftaranController extends Controller
     }
     public function show_siswa($id_pendaftaran, $id_siswa)
     {
-        $pendaftaran_siswa = PendaftaranDetailModel::where('pendaftaran_id', $id_pendaftaran)
-            ->where('siswa_id', $id_siswa)
-            ->first();
-        // dd($pendaftaran_siswa);
+      $pendaftaran_siswa = PendaftaranDetailModel::with(['siswa.guru'])
+    ->where('pendaftaran_id', $id_pendaftaran)
+    ->where('siswa_id', $id_siswa)
+    ->first();
+      
 
-        return view('admin.pendaftaran.show-siswa', [
+    return view('admin.pendaftaran.show-siswa', [
             'plugins' => '
                 <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
                 <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -177,24 +180,26 @@ class AdminPendaftaranController extends Controller
         ");
     }
 
-    public function pdf_pendaftaran($id, $status)
-    {
-        $pendaftaran = PendaftaranModel::firstWhere('id', $id);
+   public function pdf_pendaftaran($id, $status)
+{
+    $pendaftaran = PendaftaranModel::firstWhere('id', $id);
 
-        $detail_pendaftaran = PendaftaranDetailModel::where('pendaftaran_id', $id)
-            ->where('status', $status)
-            ->get();
+    $detail_pendaftaran = PendaftaranDetailModel::where('pendaftaran_id', $id)
+        ->when($status !== '*', function ($query) use ($status) {
+            return $query->where('status', $status);
+        })
+        ->get();
 
-        if ($status == '*') {
-            $detail_pendaftaran = PendaftaranDetailModel::where('pendaftaran_id', $id)
-                ->get();
-        }
-        return view('admin.pendaftaran.pdf-pendaftaran', [
-            'pendaftaran' => $pendaftaran,
-            'sekolah' => ProfileSekolahModel::first(),
-            'detail_pendaftaran' => $detail_pendaftaran
-        ]);
-    }
+    $pdf = Pdf::loadView('admin.pendaftaran.pdf-pendaftaran', [
+        'pendaftaran' => $pendaftaran,
+        'sekolah' => ProfileSekolahModel::first(),
+        'detail_pendaftaran' => $detail_pendaftaran
+    ])->setPaper('A4', 'portrait'); // bisa 'landscape' juga
+
+    return $pdf->stream('pendaftaran-'.$pendaftaran->tahun_angkatan.'.pdf');
+    // kalau mau langsung download:
+    // return $pdf->download('pendaftaran-'.$pendaftaran->tahun_angkatan.'.pdf');
+}
     public function pendaftaran_excel($id, $status)
     {
         $pendaftaran = PendaftaranModel::firstWhere('id', $id);

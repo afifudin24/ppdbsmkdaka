@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 28 Sep 2025 pada 16.31
+-- Host: 127.0.0.1:3306
+-- Waktu pembuatan: 29 Sep 2025 pada 11.59
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -79,12 +79,20 @@ CREATE TABLE `gurus` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `nama` varchar(255) NOT NULL,
   `nip` varchar(255) DEFAULT NULL,
+  `tanggal_lahir` date NOT NULL DEFAULT current_timestamp(),
   `email` varchar(255) NOT NULL,
   `alamat` varchar(255) DEFAULT NULL,
   `no_hp` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `gurus`
+--
+
+INSERT INTO `gurus` (`id`, `user_id`, `nama`, `nip`, `tanggal_lahir`, `email`, `alamat`, `no_hp`, `created_at`, `updated_at`) VALUES
+(19, 4, 'Afif Keren', '7424738i7433', '2003-01-24', 'afifrider507@gmail.com', 'Desa Surusunda Rt 01', '6281548769365', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -179,7 +187,7 @@ CREATE TABLE `pendaftaran_detail` (
 --
 
 INSERT INTO `pendaftaran_detail` (`id`, `pendaftaran_id`, `siswa_id`, `status`, `notif`, `created_at`, `updated_at`) VALUES
-(2, 1, 2, 0, 0, '2025-09-28 06:20:38', '2025-09-28 06:20:38');
+(2, 1, 2, 1, 0, '2025-09-28 06:20:38', '2025-09-28 06:20:38');
 
 -- --------------------------------------------------------
 
@@ -236,6 +244,19 @@ INSERT INTO `profile_sekolah` (`id`, `username`, `password`, `nama`, `kepsek`, `
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `seksi_presensi`
+--
+
+CREATE TABLE `seksi_presensi` (
+  `id` bigint(20) NOT NULL,
+  `guru_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `siswa`
 --
 
@@ -252,6 +273,7 @@ CREATE TABLE `siswa` (
   `tgl_lahir` varchar(255) DEFAULT NULL,
   `hp` varchar(255) DEFAULT NULL,
   `alamat` varchar(255) DEFAULT NULL,
+  `agama` varchar(255) NOT NULL,
   `desa` varchar(255) DEFAULT NULL,
   `kecamatan` varchar(255) DEFAULT NULL,
   `kabupaten` varchar(255) DEFAULT NULL,
@@ -274,8 +296,8 @@ CREATE TABLE `siswa` (
 -- Dumping data untuk tabel `siswa`
 --
 
-INSERT INTO `siswa` (`id`, `no_regis`, `user_id`, `referral_id`, `nama`, `nik`, `jurusan`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `hp`, `alamat`, `desa`, `kecamatan`, `kabupaten`, `provinsi`, `no_kk`, `nama_ayah`, `nama_ibu`, `sekolah_asal`, `foto`, `akta`, `kk`, `kip`, `suket`, `qr_code`, `created_at`, `updated_at`) VALUES
-(2, NULL, 18, NULL, 'Afif Waliyudin', NULL, 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', NULL, 'tukiem', 'tukirno', NULL, 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', NULL, NULL, '2025-09-28 06:20:38', '2025-09-28 06:20:38');
+INSERT INTO `siswa` (`id`, `no_regis`, `user_id`, `referral_id`, `nama`, `nik`, `jurusan`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `hp`, `alamat`, `agama`, `desa`, `kecamatan`, `kabupaten`, `provinsi`, `no_kk`, `nama_ayah`, `nama_ibu`, `sekolah_asal`, `foto`, `akta`, `kk`, `kip`, `suket`, `qr_code`, `created_at`, `updated_at`) VALUES
+(2, '839743982374832', 18, 19, 'Afif Waliyudin', '3301121508050003\n', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', NULL, NULL, '2025-09-28 06:20:38', '2025-09-28 06:20:38');
 
 -- --------------------------------------------------------
 
@@ -287,7 +309,7 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `foto_profil` varchar(255) NOT NULL,
+  `foto_profil` varchar(255) NOT NULL DEFAULT 'default.png',
   `role` enum('admin','guru','siswa') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -307,7 +329,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `foto_profil`, `role`, `creat
 (7, 'siswa1', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:58', '2025-09-27 03:00:58'),
 (8, 'siswa2', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
 (9, 'siswa3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
-(18, '3328091205060001', '$2y$12$KhoLv691iD6gYsvNPvSeheIWLFbaj5PrhcHG3UMuehPi1VXPyjKyu', '', 'siswa', '2025-09-28 06:20:38', '2025-09-28 06:20:38');
+(18, '3328091205060001', '$2y$12$KhoLv691iD6gYsvNPvSeheIWLFbaj5PrhcHG3UMuehPi1VXPyjKyu', '', 'siswa', '2025-09-28 06:20:38', '2025-09-28 06:20:38'),
+(21, 'udin@gmail.com', '$2y$12$o3wo5zfa7Ytl5bowZyolZOpHcO/J0/SRueBqJwgiWmhEBoTJC6SDm', 'default.png', 'guru', '2025-09-29 07:51:09', '2025-09-29 07:51:09');
 
 -- --------------------------------------------------------
 
@@ -316,11 +339,20 @@ INSERT INTO `users` (`id`, `username`, `password`, `foto_profil`, `role`, `creat
 --
 
 CREATE TABLE `verificator` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `guru_id` bigint(20) UNSIGNED NOT NULL,
   `start_char` varchar(10) NOT NULL,
-  `end_char` varchar(10) NOT NULL
+  `end_char` varchar(10) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `verificator`
+--
+
+INSERT INTO `verificator` (`id`, `guru_id`, `start_char`, `end_char`, `created_at`, `updated_at`) VALUES
+(2, 19, 'A', 'N', '2025-09-29 16:04:47', '2025-09-29 16:04:47');
 
 --
 -- Indexes for dumped tables
@@ -389,6 +421,13 @@ ALTER TABLE `profile_sekolah`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `seksi_presensi`
+--
+ALTER TABLE `seksi_presensi`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `guru_id` (`guru_id`);
+
+--
 -- Indeks untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
@@ -405,6 +444,7 @@ ALTER TABLE `users`
 -- Indeks untuk tabel `verificator`
 --
 ALTER TABLE `verificator`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `guru` (`guru_id`);
 
 --
@@ -427,7 +467,7 @@ ALTER TABLE `data_kehadiran`
 -- AUTO_INCREMENT untuk tabel `gurus`
 --
 ALTER TABLE `gurus`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan`
@@ -466,6 +506,12 @@ ALTER TABLE `profile_sekolah`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT untuk tabel `seksi_presensi`
+--
+ALTER TABLE `seksi_presensi`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
@@ -475,7 +521,13 @@ ALTER TABLE `siswa`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT untuk tabel `verificator`
+--
+ALTER TABLE `verificator`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -497,7 +549,13 @@ ALTER TABLE `data_kehadiran`
 -- Ketidakleluasaan untuk tabel `gurus`
 --
 ALTER TABLE `gurus`
-  ADD CONSTRAINT `gurus_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `gurus_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `seksi_presensi`
+--
+ALTER TABLE `seksi_presensi`
+  ADD CONSTRAINT `seksi_presensi_ibfk_1` FOREIGN KEY (`guru_id`) REFERENCES `gurus` (`id`);
 
 --
 -- Ketidakleluasaan untuk tabel `verificator`

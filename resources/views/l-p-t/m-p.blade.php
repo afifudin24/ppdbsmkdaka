@@ -11,7 +11,7 @@
 <link
   rel="shortcut icon"
   type="image/png"
-  href="{{ url('assets/files') }}/{{ $sekolah->foto }}"
+  href="{{ url('assets/files') }}/{{ $sekolah->favicon }}"
 />
 
 <!-- Core Css -->

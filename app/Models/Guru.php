@@ -28,5 +28,16 @@ class Guru extends Model
 {
     return $this->hasMany(SiswaModel::class, 'referral_id', 'id');
 }
+ public function verificator()
+    {
+        return $this->hasOne(Verificator::class, 'guru_id');
+    }
+
+     public function seksipresensi()
+    {
+        return $this->hasOne(SeksiPresensi::class, 'guru_id');
+    }
+
+
 
 }

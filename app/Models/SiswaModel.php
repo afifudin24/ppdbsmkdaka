@@ -21,14 +21,16 @@ class SiswaModel extends Model
         'tempat_lahir',
         'tgl_lahir',
         'agama',
-   
+        'nik',
         'alamat',
         'desa',
         'kecamatan',
         'kabupaten',
         'provinsi',
         'hp',
-      
+        'no_kk',
+        'sekolah-asal',
+        'agama',
         'nama_ayah',
         'nama_ibu',
         'foto',
@@ -43,7 +45,7 @@ class SiswaModel extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function guruReferral()
+    public function guru()
     {
         return $this->belongsTo(Guru::class, 'referral_id', 'id');
     }

@@ -16,7 +16,7 @@
     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
     <span class="hide-menu">Master Data</span>
 </li>
-
+@if(session('role') == 'admin')
 <li class="sidebar-item">
     <a class="sidebar-link {{ ($menu == 'profile') ? 'active' : ''; }}" href="{{ url('/admin/profile') }}" aria-expanded="false">
         <span>
@@ -44,6 +44,22 @@
     </a>
 </li>
 <li class="sidebar-item">
+    <a class="sidebar-link {{ ($menu == 'verificator') ? 'active' : ''; }}" href="{{ url('/admin/verificator') }}" aria-expanded="false">
+        <span>
+            <i class="ti ti-check"></i>
+        </span>
+        <span class="hide-menu">Verificator</span>
+    </a>
+</li>
+<li class="sidebar-item">
+    <a class="sidebar-link {{ ($menu == 'seksi_presensi') ? 'active' : ''; }}" href="{{ url('/admin/seksi_presensi') }}" aria-expanded="false">
+        <span>
+            <i class="ti ti-clipboard"></i>
+        </span>
+        <span class="hide-menu">Seksi Presensi</span>
+    </a>
+</li>
+<li class="sidebar-item">
     <a class="sidebar-link {{ ($menu == 'siswa') ? 'active' : ''; }}" href="{{ url('/admin/siswa') }}" aria-expanded="false">
         <span>
             <i class="ti ti-users"></i>
@@ -60,3 +76,5 @@
         <span class="hide-menu">Pendaftaran</span>
     </a>
 </li>
+
+@endif

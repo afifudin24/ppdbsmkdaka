@@ -49,15 +49,11 @@
                                     <td style="vertical-align: top !important;"> : </td>
                                     <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->jenis_kelamin }}</td>
                                 </tr>
+                           
                                 <tr>
-                                    <th style="vertical-align: top !important;">NISN</th>
+                                    <th style="vertical-align: top !important;">NIK</th>
                                     <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->nisn }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">NIS</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->nis }}</td>
+                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->nik }}</td>
                                 </tr>
                                 <tr>
                                     <th style="vertical-align: top !important;">No. Registrasi</th>
@@ -74,9 +70,9 @@
                         <div class="col-lg-4">
                             <table border="0" cellpadding="4">
                                 <tr>
-                                    <th style="vertical-align: top !important;">No. registrasi</th>
+                                    <th style="vertical-align: top !important;">No. HP</th>
                                     <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->no_regis }}</td>
+                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->hp }}</td>
                                 </tr>
                                 <tr>
                                     <th style="vertical-align: top !important;">Tempat Lahir</th>
@@ -94,57 +90,21 @@
                                     <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->agama }}</td>
                                 </tr>
                                 <tr>
-                                    <th style="vertical-align: top !important;">Anak Ke</th>
+                                    <th style="vertical-align: top !important;">Referral</th>
                                     <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->anak_ke }}</td>
+                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->guru->nama }}</td>
                                 </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Jumlah Saudara</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->jumlah_saudara }}</td>
-                                </tr>
+                              
                             </table>
                         </div>
-                        <div class="col-lg-4">
-                            <table border="0" cellpadding="4">
-                                <tr>
-                                    <th style="vertical-align: top !important;">Hobi</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->hobi }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Cita - Cita</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->cita_cita }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">No. Hp/Telepon</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->tgl_lahir }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Alamat Email</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->email }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Password Login</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->password }}</td>
-                                </tr>
-                            </table>
-                        </div>
+                
                     </div>
                     <hr>
                     <h5 class="card-title fw-semibold">Data Alamat</h5>
                     <div class="row">
                         <div class="col-lg-4">
                             <table border="0" cellpadding="4">
-                                <tr>
-                                    <th style="vertical-align: top !important;">Jenis Tempat Tinggal</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->jenis_tempat_tinggal }}</td>
-                                </tr>
+                               
                                 <tr>
                                     <th style="vertical-align: top !important;">Alamat</th>
                                     <td style="vertical-align: top !important;"> : </td>
@@ -172,28 +132,10 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="col-lg-6">
-                            <table border="0" cellpadding="4">
-                                <tr>
-                                    <th style="vertical-align: top !important;">Kode Pos</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->pos }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Jarak Dari Rumah</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->jarak }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Transportasi</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->transportasi }}</td>
-                                </tr>
-                            </table>
-                        </div>
+                    
                     </div>
                     <hr>
-                    <h5 class="card-title fw-semibold">Data Orangtua/Wali</h5>
+                    <h5 class="card-title fw-semibold">Data Lainnya</h5>
                     <div class="row mt-2">
                         <div class="col-lg-4">
                             <table border="0" cellpadding="4">
@@ -202,90 +144,96 @@
                                     <td style="vertical-align: top !important;"> : </td>
                                     <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->no_kk }}</td>
                                 </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Kepala Keluarga</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->kepala_kk }}</td>
-                                </tr>
+                             
                                 <tr>
                                     <th style="vertical-align: top !important;">Nama Ayah/Wali</th>
                                     <td style="vertical-align: top !important;"> : </td>
                                     <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->nama_ayah }}</td>
                                 </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">NIK Ayah/Wali</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->nik_ayah }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Tahun Lahir Ayah/Wali</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->tahun_lahir_ayah }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Penghasilan Ayah/Wali</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->penghasilan_ayah }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Pendidikan Ayah/Wali</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->pendidikan_ayah }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-lg-4">
-                            <table border="0" cellpadding="4">
-                                <tr>
+                                   <tr>
                                     <th style="vertical-align: top !important;">Nama Ibu/Wali</th>
                                     <td style="vertical-align: top !important;"> : </td>
                                     <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->nama_ibu }}</td>
                                 </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">NIK Ibu/Wali</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->nik_ibu }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Tahun Lahir Ibu/Wali</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->tahun_lahir_ibu }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Penghasilan Ibu/Wali</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->penghasilan_ibu }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Pendidikan Ibu/Wali</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->pendidikan_ibu }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <hr>
-                    <h5 class="card-title fw-semibold">Data Sekolah Asal</h5>
-                    <div class="row mt-2">
-                        <div class="col-lg-4">
-                            <table border="0" cellpadding="4">
-                                <tr>
-                                    <th style="vertical-align: top !important;">Nama Sekolah</th>
+                                      <tr>
+                                    <th style="vertical-align: top !important;">Asal Sekolah</th>
                                     <td style="vertical-align: top !important;"> : </td>
                                     <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->sekolah_asal }}</td>
                                 </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">Jenjang Sekolah</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->jenjang_sekolah }}</td>
-                                </tr>
-                                <tr>
-                                    <th style="vertical-align: top !important;">NPSN Sekolah</th>
-                                    <td style="vertical-align: top !important;"> : </td>
-                                    <td style="vertical-align: top !important;">{{ $pendaftaran_siswa->siswa->npsn_sekolah }}</td>
-                                </tr>
+                              
+                              
+                                
                             </table>
                         </div>
+                      
+                    </div>
+                    <hr>
+                    <h5 class="card-title fw-semibold">Lampiran Dokumen</h5>
+                    <div class="row mt-2">
+                        <div class="col-lg-4">
+                            <table border="0" cellpadding="4">
+                          
+                                <tr>
+                                    <th style="vertical-align: middle !important;">Foto Pribadi</th>
+                                    <td style="vertical-align: middle !important;"> : </td>
+                                  <td style="vertical-align: middle !important;">
+    @php
+        $path = public_path('foto/' . $pendaftaran_siswa->siswa->foto);
+    @endphp
+
+    @if (!empty($pendaftaran_siswa->siswa->foto) && file_exists($path))
+        <a href="{{ asset('foto/' . $pendaftaran_siswa->siswa->foto) }}" target="_blank" class="btn btn-warning">Cek File</a>
+    @else
+        <span>Tidak ada foto</span>
+    @endif
+</td>
+                                </tr>
+                                <tr>
+                                    <th style="vertical-align: middle !important;">Foto KK</th>
+                                    <td style="vertical-align: middle !important;"> : </td>
+                                    <td style="vertical-align: middle !important;">  @php
+        $path = public_path('kk/' . $pendaftaran_siswa->siswa->kk);
+    @endphp
+
+    @if (!empty($pendaftaran_siswa->siswa->kk) && file_exists($path))
+        <a href="{{ asset('kk/' . $pendaftaran_siswa->siswa->kk) }}" target="_blank" class="btn btn-warning">Cek File</a>
+    @else
+        <span>Tidak ada foto</span>
+    @endif</td>
+                                </tr>
+                              
+                            </table>
+                        </div>
+                          <div class="col-lg-4">
+                                <table border="0" cellpadding="4">
+                                      <tr>
+                                    <th style="vertical-align: middle !important;">Foto Akta</th>
+                                    <td style="vertical-align: middle !important;"> : </td>
+                                    <td style="vertical-align: middle !important;">  @php
+        $path = public_path('akta/' . $pendaftaran_siswa->siswa->akta);
+    @endphp
+
+    @if (!empty($pendaftaran_siswa->siswa->akta) && file_exists($path))
+        <a href="{{ asset('akta/' . $pendaftaran_siswa->siswa->akta) }}" target="_blank" class="btn btn-warning">Cek File</a>
+    @else
+        <span>Tidak ada foto</span>
+    @endif</td>
+                                </tr>
+                                <tr>
+                                    <th style="vertical-align: middle !important;">Foto KIP</th>
+                                    <td style="vertical-align: middle !important;"> : </td>
+                                    <td style="vertical-align: middle !important;">  @php
+        $path = public_path('kip/' . $pendaftaran_siswa->siswa->kip);
+    @endphp
+
+    @if (!empty($pendaftaran_siswa->siswa->kip) && file_exists($path))
+        <a href="{{ asset('kip/' . $pendaftaran_siswa->siswa->kip) }}" target="_blank" class="btn btn-warning">Cek File</a>
+    @else
+        <span>Tidak ada KIP</span>
+    @endif</td>
+                                </tr>
+                                </table>
+                          </div>
                     </div>
                     <br>
                     <a href="{{ url('/admin/pendaftaran') }}/{{ $pendaftaran->id }}" class="btn btn-danger">Kembali</a>
