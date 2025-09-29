@@ -23,126 +23,9 @@
             </div>
         </div>
     </div>
-    @php
-        $ceknotif = 0;
-    @endphp
-    @if ($cek_lulus == null)
 
-        <div class="row">
-            @if ($detail_pendaftaran->count() == 0)
-                @foreach ($data_pendaftaran as $pendaftaran)
-                    <div class="col-md-4 single-note-item all-category note-social" style="">
-                        <div class="card card-body">
-                            <span class="side-stick"></span>
-                            <h6 class="note-title w-75 mb-0">
-                                Tahun Angkatan {{ $pendaftaran->tahun_angkatan }}
-                            </h6>
-                            <p class="note-date fs-2">{{ $pendaftaran->created_at }}</p>
-                            <div class="note-content">
-                                <p class="note-inner-content">
-                                    Pendaftaran <strong>Gelombang Ke-{{ $pendaftaran->gelombang }}</strong> telah dibuka dengan kuota <strong>{{ $pendaftaran->kuota }} Peserta</strong>
-                                </p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="ms-auto">
-                                    <div class="category-selector btn-group">
-                                        @if ($pendaftaran->kuota == $pendaftaran->detail_pendaftaran->count())
-                                            <a class="nav-link badge bg-danger" href="javascript:void(0);">
-                                                Kuota Penuh
-                                            </a>
-                                        @else
-                                            <a class="nav-link badge bg-info" href="{{ url('/siswa/pendaftaran') }}/{{ $pendaftaran->id }}">
-                                                Daftar Sekarang
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    @php
-                        $ceknotif++;
-                    @endphp
-                @endforeach
-            @else
-                @foreach ($data_pendaftaran as $pendaftaran)
-
-                    @foreach ($detail_pendaftaran as $dp)
-                        @if ($pendaftaran->id != $dp->pendaftaran_id)
-                            <div class="col-md-4 single-note-item all-category note-social" style="">
-                                <div class="card card-body">
-                                    <span class="side-stick"></span>
-                                    <h6 class="note-title w-75 mb-0">
-                                        Tahun Angkatan {{ $pendaftaran->tahun_angkatan }}
-                                    </h6>
-                                    <p class="note-date fs-2">{{ $pendaftaran->created_at }}</p>
-                                    <div class="note-content">
-                                        <p class="note-inner-content">
-                                            Pendaftaran <strong>Gelombang Ke-{{ $pendaftaran->gelombang }}</strong> telah dibuka dengan kuota <strong>{{ $pendaftaran->kuota }} Peserta</strong>
-                                        </p>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="ms-auto">
-                                            <div class="category-selector btn-group">
-                                                @if ($pendaftaran->kuota == $pendaftaran->detail_pendaftaran->count())
-                                            <a class="nav-link badge bg-danger" href="javascript:void(0);">
-                                                Kuota Penuh
-                                            </a>
-                                        @else
-                                            <a class="nav-link badge bg-info" href="{{ url('/siswa/pendaftaran') }}/{{ $pendaftaran->id }}">
-                                                Daftar Sekarang
-                                            </a>
-                                        @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            @php
-                                $ceknotif++;
-                            @endphp
-                        @else
-
-                            @if ($dp->status == 0)
-                                <div class="col-md-4 single-note-item all-category note-social" style="">
-                                    <div class="card card-body" style="border-left: 3px solid rgba(var(--bs-warning-rgb)">
-                                        <span class="side-stick"></span>
-                                        <h6 class="note-title w-75 mb-0">
-                                            Tahun Angkatan {{ $pendaftaran->tahun_angkatan }}
-                                        </h6>
-                                        <p class="note-date fs-2">{{ $pendaftaran->created_at }}</p>
-                                        <div class="note-content">
-                                            <p class="note-inner-content">
-                                                Pendaftaran <strong>Gelombang Ke-{{ $pendaftaran->gelombang }}</strong> <br>
-                                                Pendaftaran Anda sedang di <strong>Verifikasi</strong>, silahkan cek secara berkala
-                                            </p>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="ms-auto">
-                                                <div class="category-selector btn-group">
-                                                    <a class="nav-link badge bg-warning" href="{{ url('/siswa/pendaftaran') }}">
-                                                        Lihat Detail
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @php
-                                    $ceknotif++;
-                                @endphp
-                            @endif
-
-                        @endif
-                        
-                    @endforeach
-
-                @endforeach
-            @endif
-        </div>
-    @endif
+  
 
     @foreach ($notifikasi as $notif)
         @if ($notif->status == 2)
@@ -163,9 +46,9 @@
                     </div>
                 </div>
             </div>
-            @php
-                $ceknotif++;
-            @endphp
+
+             
+          
         @endif
         @if ($notif->status == 1)
             <div class="row">
@@ -185,29 +68,77 @@
                     </div>
                 </div>
             </div>
-            @php
-                $ceknotif++;
-            @endphp
-        @endif
-    @endforeach
 
-    @if ($ceknotif == 0)
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card w-100">
-                <div class="card-header text-bg-warning">
-                    <h4 class="mb-0 text-white card-title">NOTIFIKASI</h4>
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">Belum Ada Notifikasi</h3>
-                    <p class="card-text">
-                        Notifikasi Gelombang Pendaftaran, status lulus & tidak lulus Pendaftaran akan tampil disini
-                    </p>
+              
+         
+        @endif
+      @endforeach
+@if($status_lulus->status == 2)
+        <div class="row">
+                <div class="col-lg-12">
+                    <div class="card w-100">
+                        <div class="card-header text-bg-danger">
+                            <h4 class="mb-0 text-white card-title">Status Terkini</h4>
+                        </div>
+                        <div class="card-body">
+                             
+                            <h3 class="card-title">Pendaftaranmu Tidak Diterima</h3>
+                            <p class="card-text">
+                              Silahkan coba daftar kembali di gelombang berikutnya
+                            </p>
+                         
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    @endif
+                @elseif($status_lulus->status == 1)
+                <div class="row">
+                <div class="col-lg-12">
+                    <div class="card w-100">
+                        <div class="card-header text-bg-success">
+                            <h4 class="mb-0 text-white card-title">Status Terkini</h4>
+                        </div>
+                        <div class="card-body">
+                             
+                            <h3 class="card-title">Pendaftaranmu Diterima</h3>
+                             <p class="card-text">
+        Silakan simpan atau cetak <strong>Surat Keterangan Diterima</strong> sebagai bukti resmi bahwa pendaftaranmu telah diterima dan kamu siap menjadi siswa SMK Darussalam Karangpucung.  
+        <br><br>
+        <strong>QR Code Identitas</strong> berfungsi sebagai tanda pengenal digital yang akan digunakan untuk presensi pada berbagai agenda kehadiran di lingkungan SMK Darussalam Karangpucung.
+    </p>
+                            <a href="{{ url('/suket/' . $status_lulus->siswa->no_regis . '.pdf')}}" class="btn btn-secondary" target="_blank"><i class="ti ti-printer"></i> Cetak Surat Keterangan</a>
+                            <!-- <a href="{{url('/qr_code/' . $status_lulus->siswa->no_regis . '.svg') }}" class="btn btn-info" target="_blank"><i class="ti ti-qrcode"></i> QR Code Identitas</a> -->
+                            <a href="{{ url('/qr-code/' . $status_lulus->siswa->no_regis) }}" 
+   class="btn btn-info" target="_blank">
+   <i class="ti ti-qrcode"></i> QR Code Identitas
+</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @else 
+             <div class="row">
+                <div class="col-lg-12">
+                    <div class="card w-100">
+                        <div class="card-header text-bg-success">
+                            <h4 class="mb-0 text-white card-title">Status Terkini</h4>
+                        </div>
+                        <div class="card-body">
+                             
+                            <h3 class="card-title">Menunggu Verifikasi</h3>
+                            <p class="card-text">
+                              Silahkan menunggu verifikasi
+                            </p>
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+                @endif
+    
 
     {!! session('pesan') !!}
 

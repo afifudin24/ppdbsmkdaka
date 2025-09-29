@@ -36,8 +36,10 @@ class AuthController extends Controller
 public function login(Request $request)
 {
    
-   
+// dd($request->username);
     $user = User::where('username', $request->username)->first();
+
+
 
     if ($user) {
         // cek password
@@ -48,7 +50,8 @@ public function login(Request $request)
 
             // arahkan sesuai role
             if ($user->role === 'siswa') {
-
+                 $siswa = SiswaModel::with('user')->where('user_id', $user->id)->first();
+                session()->put('user', $siswa);
                 return redirect('/siswa')->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Siswa', 'success'));
             } elseif ($user->role === 'guru') {
                 return redirect('/guru')->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Guru', 'success'));

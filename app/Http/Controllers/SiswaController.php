@@ -19,13 +19,16 @@ class SiswaController extends Controller
 {
     public function index()
     {
-        $notifikasi = PendaftaranDetailModel::where('siswa_id', session()->get('id'))
+        // dd(session()->get('user')->id);
+        $notifikasi = PendaftaranDetailModel::where('siswa_id',session()->get('user')->id)
             ->where('notif', 0)
             ->get();
 
-        $cek_lulus =  PendaftaranDetailModel::where('siswa_id', session()->get('id'))
+        $cek_lulus =  PendaftaranDetailModel::where('siswa_id', session()->get('user')->id)
             ->where('status', 1)
             ->first();
+
+        $status_lulus = PendaftaranDetailModel::with('siswa')->where('siswa_id', session()->get('user')->id)->first();
 
         return view('siswa.index', [
             'plugins' => '
@@ -39,6 +42,7 @@ class SiswaController extends Controller
             'sekolah' => ProfileSekolahModel::first(),
             'notifikasi' => $notifikasi,
             'cek_lulus' => $cek_lulus,
+            'status_lulus' => $status_lulus,
             'data_pendaftaran' => PendaftaranModel::where('tutup', 0)->get(),
             'detail_pendaftaran' => PendaftaranDetailModel::where('siswa_id', session()->get('id'))->get()
         ]);
@@ -272,19 +276,6 @@ class SiswaController extends Controller
              "Passsword : {$request->tgl_lahir} \n" .
              "Jika kamu tidak merasa mendaftar, abaikan pesan ini.";
 
-     $apiKey = "4laPLFDacDyEBesqop0KVzRFcoz0Hl";
-    $url = "https://wa.smkdaka.sch.id/send-message";
-    
-//     dispatch(function () use ($url, $apiKey, $request, $pesan) {
-//     Http::get($url, [
-//         'api_key' => $apiKey,
-//         'sender'  => '6282324917583',
-//         'number'  => $request->no_hp,
-//         'message' => $pesan,
-//         'footer'  => 'Saku Bijak'
-//     ]);
-// });
-
 $hurufAwal = strtoupper(substr($request->nama, 0, 1));
 $verificator = Verificator::with('guru')->where('start_char', '<=', $hurufAwal)
                           ->where('end_char', '>=', $hurufAwal)
@@ -321,7 +312,7 @@ if ($verificator) {
 
           $usersiswa = new User();
         $usersiswa->username = $request->nik;
-        $usersiswa->password = Hash::make($request->nik);
+        $usersiswa->password = Hash::make($request->tgl_lahir);
         $usersiswa->role = 'siswa';
         $usersiswa->save();
 

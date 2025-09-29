@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Waktu pembuatan: 29 Sep 2025 pada 11.59
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 29 Sep 2025 pada 16.58
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -164,7 +164,8 @@ CREATE TABLE `pendaftaran` (
 --
 
 INSERT INTO `pendaftaran` (`id`, `tahun_angkatan`, `gelombang`, `kuota`, `tutup`, `created_at`, `updated_at`) VALUES
-(1, 2026, 1, 500, 0, '2025-09-27 03:55:48', '2025-09-27 03:55:48');
+(1, 2026, 1, 500, 0, '2025-09-27 03:55:48', '2025-09-29 05:33:28'),
+(2, 2026, 2, 600, 1, '2025-09-29 05:32:59', '2025-09-29 05:33:19');
 
 -- --------------------------------------------------------
 
@@ -187,7 +188,7 @@ CREATE TABLE `pendaftaran_detail` (
 --
 
 INSERT INTO `pendaftaran_detail` (`id`, `pendaftaran_id`, `siswa_id`, `status`, `notif`, `created_at`, `updated_at`) VALUES
-(2, 1, 2, 1, 0, '2025-09-28 06:20:38', '2025-09-28 06:20:38');
+(2, 1, 2, 1, 1, '2025-09-28 06:20:38', '2025-09-29 07:42:15');
 
 -- --------------------------------------------------------
 
@@ -254,6 +255,13 @@ CREATE TABLE `seksi_presensi` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `seksi_presensi`
+--
+
+INSERT INTO `seksi_presensi` (`id`, `guru_id`, `created_at`, `updated_at`) VALUES
+(2, 19, '2025-09-29 05:36:00', '2025-09-29 05:36:00');
+
 -- --------------------------------------------------------
 
 --
@@ -297,7 +305,7 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id`, `no_regis`, `user_id`, `referral_id`, `nama`, `nik`, `jurusan`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `hp`, `alamat`, `agama`, `desa`, `kecamatan`, `kabupaten`, `provinsi`, `no_kk`, `nama_ayah`, `nama_ibu`, `sekolah_asal`, `foto`, `akta`, `kk`, `kip`, `suket`, `qr_code`, `created_at`, `updated_at`) VALUES
-(2, '839743982374832', 18, 19, 'Afif Waliyudin', '3301121508050003\n', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', NULL, NULL, '2025-09-28 06:20:38', '2025-09-28 06:20:38');
+(2, 'REG-00002', 18, 19, 'Afif Waliyudin', '3328091205060001', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-29 07:42:14');
 
 -- --------------------------------------------------------
 
@@ -329,7 +337,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `foto_profil`, `role`, `creat
 (7, 'siswa1', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:58', '2025-09-27 03:00:58'),
 (8, 'siswa2', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
 (9, 'siswa3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
-(18, '3328091205060001', '$2y$12$KhoLv691iD6gYsvNPvSeheIWLFbaj5PrhcHG3UMuehPi1VXPyjKyu', '', 'siswa', '2025-09-28 06:20:38', '2025-09-28 06:20:38'),
+(18, '3328091205060001', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-28 06:20:38', '2025-09-28 06:20:38'),
 (21, 'udin@gmail.com', '$2y$12$o3wo5zfa7Ytl5bowZyolZOpHcO/J0/SRueBqJwgiWmhEBoTJC6SDm', 'default.png', 'guru', '2025-09-29 07:51:09', '2025-09-29 07:51:09');
 
 -- --------------------------------------------------------
@@ -485,7 +493,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `pendaftaran`
 --
 ALTER TABLE `pendaftaran`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `pendaftaran_detail`
@@ -509,7 +517,7 @@ ALTER TABLE `profile_sekolah`
 -- AUTO_INCREMENT untuk tabel `seksi_presensi`
 --
 ALTER TABLE `seksi_presensi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `siswa`

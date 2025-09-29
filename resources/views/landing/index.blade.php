@@ -129,7 +129,7 @@
                                                     <div class="d-flex align-items-center">
                                                         <div class="ms-auto">
                                                             <div class="category-selector btn-group">
-                                                                <a class="nav-link badge bg-info" href="{{ url('/auth') }}">
+                                                                <a class="nav-link badge bg-info" href="{{ url('/inputdaftar') }}">
                                                                     Daftar Sekarang
                                                                 </a>
                                                             </div>

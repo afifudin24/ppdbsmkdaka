@@ -6,10 +6,11 @@ use App\Exports\PendaftaranExport;
 use App\Models\PendaftaranDetailModel;
 use App\Models\PendaftaranModel;
 use App\Models\ProfileSekolahModel;
+use App\Models\SiswaModel;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AdminPendaftaranController extends Controller
 {
@@ -159,6 +160,39 @@ class AdminPendaftaranController extends Controller
     public function lulus($status, $id_detail_pendaftaran)
     {
         $detail_pendaftaran = PendaftaranDetailModel::firstWhere('id', $id_detail_pendaftaran);
+        $siswa = SiswaModel::firstWhere('id', $detail_pendaftaran->siswa_id);
+        $no_registrasi = 'REG-' . str_pad($siswa->id, 5, '0', STR_PAD_LEFT);
+    $siswa->no_regis = $no_registrasi;
+    $dataqr = [
+    'id' => $siswa->id,
+    'no_registrasi' => $siswa->no_regis,
+    'nik' => $siswa->nik,
+    'nama' => $siswa->nama,
+    'asal_sekolah' => $siswa->sekolah_asal
+];
+
+// Simpan QR ke storage/public/qr_code/{id}.png
+ // --- Simpan QR ke public/qr_code ---
+  $qrFile = "qr_code/{$siswa->no_regis}.svg";
+file_put_contents(public_path($qrFile), QrCode::format('svg')->size(200)->generate(json_encode($dataqr)));
+
+$siswa->qr_code = $qrFile; // cukup simpan path
+
+    // --- Simpan PDF ke public/suket ---
+    $pdfPath = public_path("suket/{$siswa->no_regis}.pdf");
+    $pdf = PDF::loadView('surat.suket', compact('siswa'));
+    file_put_contents($pdfPath, $pdf->output());
+    $siswa->suket = "suket/{$siswa->id}.pdf";
+
+    $siswa->save();
+    // ambil url pdf dan qr ke wa
+
+    $qrUrl = url('/qrcode/' . $siswa->no_regis);
+    $pdfUrl = url('/suket/' . $siswa->no_regis . '.pdf');
+
+    // Kirim ke wa disini
+
+     
 
         $data = [
             'status' => $status,

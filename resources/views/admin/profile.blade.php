@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <!-- <div class="col-lg-6">
             <div class="card w-100 position-relative overflow-hidden">
                 <div class="card-body p-4">
                     <h5 class="card-title fw-semibold">Edit Akun</h5>
@@ -63,7 +63,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="row">

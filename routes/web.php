@@ -96,3 +96,16 @@ Route::get('/auth/guru', [AuthController::class, 'loginguru']);
 
 // siswa daftar
 Route::post('/siswa/pendaftaran', [SiswaController::class, 'store_pendaftaran']);
+
+// cek qr
+Route::get('/qr-code/{no_regis}', function ($no_regis) {
+    $path = public_path("qr_code/{$no_regis}.svg");
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    $qrSvg = file_get_contents($path);
+
+    return view('qr.show', compact('qrSvg', 'no_regis'));
+});
