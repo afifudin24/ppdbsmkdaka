@@ -16028,7 +16028,7 @@ html[data-boxed-layout=boxed] .container-fluid, html[data-boxed-layout=boxed] .c
 .left-sidebar .scroll-sidebar {
   overflow-y: auto;
   padding: 0 24px;
-  height: calc(100vh - 175px);
+  height: calc(100vh - 80px);
   border-radius: 7px;
 }
 .left-sidebar .scroll-sidebar .simplebar-track.simplebar-horizontal {

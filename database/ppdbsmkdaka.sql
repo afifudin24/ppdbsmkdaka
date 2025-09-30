@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 29 Sep 2025 pada 16.58
+-- Host: 127.0.0.1:3306
+-- Waktu pembuatan: 30 Sep 2025 pada 09.19
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -179,6 +179,7 @@ CREATE TABLE `pendaftaran_detail` (
   `siswa_id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `notif` int(11) NOT NULL DEFAULT 0,
+  `tgl_verif` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -187,8 +188,8 @@ CREATE TABLE `pendaftaran_detail` (
 -- Dumping data untuk tabel `pendaftaran_detail`
 --
 
-INSERT INTO `pendaftaran_detail` (`id`, `pendaftaran_id`, `siswa_id`, `status`, `notif`, `created_at`, `updated_at`) VALUES
-(2, 1, 2, 1, 1, '2025-09-28 06:20:38', '2025-09-29 07:42:15');
+INSERT INTO `pendaftaran_detail` (`id`, `pendaftaran_id`, `siswa_id`, `status`, `notif`, `tgl_verif`, `created_at`, `updated_at`) VALUES
+(2, 1, 2, 1, 1, NULL, '2025-09-28 06:20:38', '2025-09-30 07:02:03');
 
 -- --------------------------------------------------------
 
@@ -232,15 +233,16 @@ CREATE TABLE `profile_sekolah` (
   `telpon` varchar(255) NOT NULL,
   `website` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `favicon` varchar(255) NOT NULL
+  `favicon` varchar(255) NOT NULL,
+  `tahun_ajar` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data untuk tabel `profile_sekolah`
 --
 
-INSERT INTO `profile_sekolah` (`id`, `username`, `password`, `nama`, `kepsek`, `nip_kepsek`, `ttd_kepsek`, `panitia`, `nip_panitia`, `ttd_panitia`, `foto`, `logo_dark`, `alamat`, `telpon`, `website`, `email`, `favicon`) VALUES
-(1, 'admin', '123', 'SMK Darussalam Karangpucung', 'Dr. Risa Fita Hapsari, S.Pd, M.M.', '92736826181292', 'ttd-kepsek.png', 'Waryanto, S.Pd', '-', 'kAdnfChXL3w4bigPJBPd08vkWoplcbqiC2BweGfC.png', 'spmbdaka.png', 'spmbdaka.png', 'Jl. Raya Karangpucung-Majenang, Km. 02 No. 08, Karangpucung, Cilacap Regency, Central Java 53255', '021-4645-7878', 'smkdaka.sch.id', 'smkdkrpc@gmail.com', 'OzHwuS7i18XXpyQ5hycLASimLlF9nqaBh2wgcJWs.png');
+INSERT INTO `profile_sekolah` (`id`, `username`, `password`, `nama`, `kepsek`, `nip_kepsek`, `ttd_kepsek`, `panitia`, `nip_panitia`, `ttd_panitia`, `foto`, `logo_dark`, `alamat`, `telpon`, `website`, `email`, `favicon`, `tahun_ajar`) VALUES
+(1, 'admin', '123', 'SMK Darussalam Karangpucung', 'Dr. Risa Fita Hapsari, S.Pd, M.M.', '92736826181292', 'ttd-kepsek.png', 'Waryanto, S.Pd', '-', 'kAdnfChXL3w4bigPJBPd08vkWoplcbqiC2BweGfC.png', 'spmbdaka.png', 'spmbdaka.png', 'Jl. Raya Karangpucung-Majenang KM.02 No.8, Karangpucung, Cilacap', '021-4645-7878', 'smkdaka.sch.id', 'smkdkrpc@gmail.com', 'OzHwuS7i18XXpyQ5hycLASimLlF9nqaBh2wgcJWs.png', '2026');
 
 -- --------------------------------------------------------
 
@@ -305,7 +307,7 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id`, `no_regis`, `user_id`, `referral_id`, `nama`, `nik`, `jurusan`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `hp`, `alamat`, `agama`, `desa`, `kecamatan`, `kabupaten`, `provinsi`, `no_kk`, `nama_ayah`, `nama_ibu`, `sekolah_asal`, `foto`, `akta`, `kk`, `kip`, `suket`, `qr_code`, `created_at`, `updated_at`) VALUES
-(2, 'REG-00002', 18, 19, 'Afif Waliyudin', '3328091205060001', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-29 07:42:14');
+(2, 'REG-00002', 18, 19, 'Afif Keren', '3328091205060001', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-30 06:49:50');
 
 -- --------------------------------------------------------
 

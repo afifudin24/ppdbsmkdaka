@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'is_admin' => \App\Http\Middleware\IsAdmin::class,
         'is_siswa' => \App\Http\Middleware\IsSiswa::class,
         'is_guru' => \App\Http\Middleware\IsGuru::class,
+        'role' => \App\Http\Middleware\CheckRole::class
     ];
 }

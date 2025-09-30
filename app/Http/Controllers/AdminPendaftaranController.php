@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
+use Illuminate\Support\Facades\Http;
 class AdminPendaftaranController extends Controller
 {
     /**
@@ -156,6 +156,29 @@ class AdminPendaftaranController extends Controller
         PendaftaranModel::where('id', $id)
             ->update($data);
     }
+       function fixNoHp($nohp)
+{
+    // Hilangkan semua karakter non-angka
+    $nohp = preg_replace('/[^0-9]/', '', $nohp);
+
+    // Jika diawali "0", ganti dengan "62"
+    if (substr($nohp, 0, 1) === '0') {
+        $nohp = '62' . substr($nohp, 1);
+    }
+
+    // Jika diawali "62", biarkan
+    elseif (substr($nohp, 0, 2) === '62') {
+        $nohp = $nohp;
+    }
+
+    // Jika diawali "8" langsung, tambahkan "62"
+    elseif (substr($nohp, 0, 1) === '8') {
+        $nohp = '62' . $nohp;
+    }
+
+    return $nohp;
+}
+
 
     public function lulus($status, $id_detail_pendaftaran)
     {
@@ -168,6 +191,7 @@ class AdminPendaftaranController extends Controller
     'no_registrasi' => $siswa->no_regis,
     'nik' => $siswa->nik,
     'nama' => $siswa->nama,
+    'alamat' => $siswa->alamat,
     'asal_sekolah' => $siswa->sekolah_asal
 ];
 
@@ -179,18 +203,28 @@ file_put_contents(public_path($qrFile), QrCode::format('svg')->size(200)->genera
 $siswa->qr_code = $qrFile; // cukup simpan path
 
     // --- Simpan PDF ke public/suket ---
-    $pdfPath = public_path("suket/{$siswa->no_regis}.pdf");
-    $pdf = PDF::loadView('surat.suket', compact('siswa'));
-    file_put_contents($pdfPath, $pdf->output());
-    $siswa->suket = "suket/{$siswa->id}.pdf";
+    // $pdfPath = public_path("suket/{$siswa->no_regis}.pdf");
+    // $pdf = PDF::loadView('surat.suket', compact('siswa'));
+    // file_put_contents($pdfPath, $pdf->output());
+    // $siswa->suket = "suket/{$siswa->id}.pdf";
 
     $siswa->save();
     // ambil url pdf dan qr ke wa
 
-    $qrUrl = url('/qrcode/' . $siswa->no_regis);
-    $pdfUrl = url('/suket/' . $siswa->no_regis . '.pdf');
+    $qrUrl = url('/qr-code/' . $siswa->no_regis);
+    $pdfUrl = url('/cetak_surat_keterangan/' . $siswa->no_regis );
+   $pesan = "Selamat, anda dinyatakan *DITERIMA* dan telah diverifikasi.\n\n"
+       . "📌 Silakan cek QR Code di: $qrUrl\n"
+       . "📄 Cetak Surat Keterangan di: $pdfUrl";
 
     // Kirim ke wa disini
+       Http::get(config('services.wa.url'), [
+    'api_key' => config('services.wa.api_key'),
+    'sender'  => config('services.wa.sender'),
+    'number'  => $this->fixNoHp($siswa->hp),
+    'message' => $pesan,
+    'footer'  => 'SPMB SMK Darussalam Karangpucung'
+]);
 
      
 

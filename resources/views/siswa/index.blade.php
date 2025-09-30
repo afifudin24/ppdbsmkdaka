@@ -106,7 +106,8 @@
         <br><br>
         <strong>QR Code Identitas</strong> berfungsi sebagai tanda pengenal digital yang akan digunakan untuk presensi pada berbagai agenda kehadiran di lingkungan SMK Darussalam Karangpucung.
     </p>
-                            <a href="{{ url('/suket/' . $status_lulus->siswa->no_regis . '.pdf')}}" class="btn btn-secondary" target="_blank"><i class="ti ti-printer"></i> Cetak Surat Keterangan</a>
+
+                            <a href="{{ url('/cetak_surat_keterangan/' . $status_lulus->siswa->no_regis)}}" class="btn btn-secondary" target="_blank"><i class="ti ti-printer"></i> Cetak Surat Keterangan</a>
                             <!-- <a href="{{url('/qr_code/' . $status_lulus->siswa->no_regis . '.svg') }}" class="btn btn-info" target="_blank"><i class="ti ti-qrcode"></i> QR Code Identitas</a> -->
                             <a href="{{ url('/qr-code/' . $status_lulus->siswa->no_regis) }}" 
    class="btn btn-info" target="_blank">

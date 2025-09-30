@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminJurusanController;
 use App\Http\Controllers\AdminPendaftaranController;
 use App\Http\Controllers\AdminSiswaController;
 use App\Http\Controllers\AdminGuruController;
+use App\Http\Controllers\SuratKeteranganController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SiswaController;
 use App\Models\PendaftaranModel;
@@ -86,6 +87,11 @@ Route::get('/siswa/notif/{id}', [SiswaController::class, 'notif'])->middleware('
 Route::get('/siswa/profile', [SiswaController::class, 'profile'])->middleware('is_siswa');
 Route::post('/siswa/profile', [SiswaController::class, 'update_profile'])->middleware('is_siswa');
 Route::post('/siswa/edit_foto', [SiswaController::class, 'edit_foto'])->middleware('is_siswa');
+
+// cetak surat 
+Route::get('/cetak_surat_keterangan/{no_regis}', 
+    [SuratKeteranganController::class, 'index']
+)->middleware('role:siswa,guru');
 
 
 // Belum login
