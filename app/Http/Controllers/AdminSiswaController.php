@@ -12,22 +12,38 @@ class AdminSiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return view('admin.siswa.index', [
-            'plugins' => '
-                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
-                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
-                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
-            ',
-            'menu_master' => 'false',
-            'menu' => 'siswa',
-            'judul' => 'Data Siswa',
-            'sekolah' => ProfileSekolahModel::first(),
-            'data_siswa' => SiswaModel::all()
-        ]);
+ public function index(Request $request)
+{
+    // Ambil nilai filter dari request (misal ?status=1)
+    $status = $request->input('status');
+
+    // Query dasar dengan relasi pendaftaran
+    $query = SiswaModel::with('pendaftaran');
+
+    // Jika ada filter status, tambahkan kondisi
+    if ($status !== null && $status !== '') {
+        $query->whereHas('pendaftaran', function ($q) use ($status) {
+            $q->where('status', $status);
+        });
     }
+
+    $data_siswa = $query->get();
+
+    return view('admin.siswa.index', [
+        'plugins' => '
+            <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+            <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+            <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+            <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+        ',
+        'menu_master' => 'false',
+        'menu' => 'siswa',
+        'judul' => 'Data Siswa',
+        'sekolah' => ProfileSekolahModel::first(),
+        'data_siswa' => $data_siswa,
+        'status_selected' => $status // dikirim agar option tetap terpilih
+    ]);
+}
 
     /**
      * Show the form for creating a new resource.

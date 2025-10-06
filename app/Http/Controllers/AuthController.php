@@ -6,6 +6,7 @@ use App\Models\ProfileSekolahModel;
 use App\Models\SiswaModel;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -54,6 +55,10 @@ public function login(Request $request)
                 session()->put('user', $siswa);
                 return redirect('/siswa')->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Siswa', 'success'));
             } elseif ($user->role === 'guru') {
+                 $guru = Guru::with(['user', 'verificator', 'seksipresensi'])
+            ->where('user_id', $user->id)
+            ->first();
+                session()->put('user', $guru);
                 return redirect('/guru')->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Guru', 'success'));
             } elseif ($user->role === 'admin') {
                 $admin = Admin::with('user')->where('user_id', $user->id)->first();

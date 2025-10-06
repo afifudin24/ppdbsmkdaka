@@ -71,6 +71,9 @@
                         @if (session()->get('role') == 'siswa')
                             @include('l-p-t.n-p-s')
                         @endif
+                         @if (session()->get('role') == 'guru')
+                            @include('l-p-t.n-p-g')
+                        @endif
                         @if (session()->get('role') == 'admin')
                             @php
                                 // $user = $sekolah;

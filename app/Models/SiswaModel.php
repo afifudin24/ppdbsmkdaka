@@ -51,7 +51,7 @@ class SiswaModel extends Model
     }
      public function pendaftaran()
     {
-        return $this->hasOne(PendaftaranModel::class, 'siswa_id', 'id');
+        return $this->hasOne(PendaftaranDetailModel::class, 'siswa_id', 'id');
         // kalau 1 siswa bisa daftar lebih dari sekali pakai hasMany()
     }
 }

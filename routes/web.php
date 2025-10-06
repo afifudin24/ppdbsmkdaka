@@ -3,11 +3,13 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminJurusanController;
 use App\Http\Controllers\AdminPendaftaranController;
+use App\Http\Controllers\AgendaKehadiranController;
 use App\Http\Controllers\AdminSiswaController;
 use App\Http\Controllers\AdminGuruController;
 use App\Http\Controllers\SuratKeteranganController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\GuruController;
 use App\Models\PendaftaranModel;
 use App\Models\ProfileSekolahModel;
 use Illuminate\Support\Facades\Route;
@@ -91,7 +93,7 @@ Route::post('/siswa/edit_foto', [SiswaController::class, 'edit_foto'])->middlewa
 // cetak surat 
 Route::get('/cetak_surat_keterangan/{no_regis}', 
     [SuratKeteranganController::class, 'index']
-)->middleware('role:siswa,guru');
+)->middleware('role:admin,siswa,guru');
 
 
 // Belum login
@@ -115,3 +117,15 @@ Route::get('/qr-code/{no_regis}', function ($no_regis) {
 
     return view('qr.show', compact('qrSvg', 'no_regis'));
 });
+
+// Dashboard Guru
+Route::get('/guru', [GuruController::class, 'index'])->middleware('is_guru');
+Route::get('/guru/siswa', [GuruController::class, 'siswa'])->middleware('is_guru');
+Route::get('/guru/daftarkansiswa', [GuruController::class, 'daftarkan_siswa'])->middleware('is_guru');
+Route::get('/guru/kehadiransiswa', [GuruController::class, 'kehadiran_siswa'])->middleware('is_guru');
+
+// agenda kehadiran siswa
+Route::get('/guru/agendakehadiran', [GuruController::class, 'agenda_kehadiran'])->middleware('is_guru');
+
+// verificator
+Route::get('/guru/verificator/siswa', [GuruController::class, 'verificator_siswa'])->middleware('is_guru');
