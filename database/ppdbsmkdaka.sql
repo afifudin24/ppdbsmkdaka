@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Waktu pembuatan: 30 Sep 2025 pada 09.19
+-- Waktu pembuatan: 06 Okt 2025 pada 10.42
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -51,10 +51,17 @@ INSERT INTO `admins` (`id`, `user_id`, `nama`, `email`, `no_hp`, `created_at`, `
 --
 
 CREATE TABLE `agenda_kehadiran` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `nama_agenda` varchar(255) NOT NULL,
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `agenda_kehadiran`
+--
+
+INSERT INTO `agenda_kehadiran` (`id`, `nama_agenda`, `tanggal`) VALUES
+(1, 'Kumpul Pertama', '2025-10-06');
 
 -- --------------------------------------------------------
 
@@ -64,6 +71,7 @@ CREATE TABLE `agenda_kehadiran` (
 
 CREATE TABLE `data_kehadiran` (
   `id` int(11) NOT NULL,
+  `agenda_id` bigint(20) UNSIGNED NOT NULL,
   `siswa_id` bigint(20) UNSIGNED NOT NULL,
   `status_kehadiran` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -189,7 +197,8 @@ CREATE TABLE `pendaftaran_detail` (
 --
 
 INSERT INTO `pendaftaran_detail` (`id`, `pendaftaran_id`, `siswa_id`, `status`, `notif`, `tgl_verif`, `created_at`, `updated_at`) VALUES
-(2, 1, 2, 1, 1, NULL, '2025-09-28 06:20:38', '2025-09-30 07:02:03');
+(2, 1, 2, 1, 1, NULL, '2025-09-28 06:20:38', '2025-09-30 07:02:03'),
+(3, 1, 3, 0, 1, NULL, '2025-09-28 06:20:38', '2025-09-30 07:02:03');
 
 -- --------------------------------------------------------
 
@@ -307,7 +316,8 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id`, `no_regis`, `user_id`, `referral_id`, `nama`, `nik`, `jurusan`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `hp`, `alamat`, `agama`, `desa`, `kecamatan`, `kabupaten`, `provinsi`, `no_kk`, `nama_ayah`, `nama_ibu`, `sekolah_asal`, `foto`, `akta`, `kk`, `kip`, `suket`, `qr_code`, `created_at`, `updated_at`) VALUES
-(2, 'REG-00002', 18, 19, 'Afif Keren', '3328091205060001', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-30 06:49:50');
+(2, 'REG-00002', 18, 19, 'Afif Keren', '3328091205060001', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-30 06:49:50'),
+(3, 'REG-00004', 22, 19, 'Afif lgi', '3328091205324323', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-30 06:49:50');
 
 -- --------------------------------------------------------
 
@@ -340,7 +350,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `foto_profil`, `role`, `creat
 (8, 'siswa2', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
 (9, 'siswa3', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-27 03:00:59', '2025-09-27 03:00:59'),
 (18, '3328091205060001', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-28 06:20:38', '2025-09-28 06:20:38'),
-(21, 'udin@gmail.com', '$2y$12$o3wo5zfa7Ytl5bowZyolZOpHcO/J0/SRueBqJwgiWmhEBoTJC6SDm', 'default.png', 'guru', '2025-09-29 07:51:09', '2025-09-29 07:51:09');
+(21, 'udin@gmail.com', '$2y$12$o3wo5zfa7Ytl5bowZyolZOpHcO/J0/SRueBqJwgiWmhEBoTJC6SDm', 'default.png', 'guru', '2025-09-29 07:51:09', '2025-09-29 07:51:09'),
+(22, '3328091205034545', '$2y$10$DhoIRGDTny3HBSv.aWkI1ufONUCw2IJd4Pjkz7J8Z6qVIFCl7mdsW', '', 'siswa', '2025-09-28 06:20:38', '2025-09-28 06:20:38');
 
 -- --------------------------------------------------------
 
@@ -362,7 +373,7 @@ CREATE TABLE `verificator` (
 --
 
 INSERT INTO `verificator` (`id`, `guru_id`, `start_char`, `end_char`, `created_at`, `updated_at`) VALUES
-(2, 19, 'A', 'N', '2025-09-29 16:04:47', '2025-09-29 16:04:47');
+(3, 19, 'A', 'M', '2025-10-06 15:26:45', '2025-10-06 15:26:45');
 
 --
 -- Indexes for dumped tables
@@ -377,11 +388,18 @@ ALTER TABLE `admins`
   ADD KEY `admins_user_id_foreign` (`user_id`);
 
 --
+-- Indeks untuk tabel `agenda_kehadiran`
+--
+ALTER TABLE `agenda_kehadiran`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `data_kehadiran`
 --
 ALTER TABLE `data_kehadiran`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `siswa` (`siswa_id`);
+  ADD KEY `siswa` (`siswa_id`),
+  ADD KEY `agenda` (`agenda_id`);
 
 --
 -- Indeks untuk tabel `gurus`
@@ -468,6 +486,12 @@ ALTER TABLE `admins`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT untuk tabel `agenda_kehadiran`
+--
+ALTER TABLE `agenda_kehadiran`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `data_kehadiran`
 --
 ALTER TABLE `data_kehadiran`
@@ -501,7 +525,7 @@ ALTER TABLE `pendaftaran`
 -- AUTO_INCREMENT untuk tabel `pendaftaran_detail`
 --
 ALTER TABLE `pendaftaran_detail`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
@@ -525,19 +549,19 @@ ALTER TABLE `seksi_presensi`
 -- AUTO_INCREMENT untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT untuk tabel `verificator`
 --
 ALTER TABLE `verificator`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -553,6 +577,7 @@ ALTER TABLE `admins`
 -- Ketidakleluasaan untuk tabel `data_kehadiran`
 --
 ALTER TABLE `data_kehadiran`
+  ADD CONSTRAINT `agenda` FOREIGN KEY (`agenda_id`) REFERENCES `agenda_kehadiran` (`id`),
   ADD CONSTRAINT `siswa` FOREIGN KEY (`siswa_id`) REFERENCES `siswa` (`id`);
 
 --
