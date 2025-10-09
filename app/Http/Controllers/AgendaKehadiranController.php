@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AgendaKehadiran;
 use App\Http\Requests\StoreAgendaKehadiranRequest;
 use App\Http\Requests\UpdateAgendaKehadiranRequest;
-
+use App\Models\ProfileSekolahModel;
 class AgendaKehadiranController extends Controller
 {
     public function agenda_kehadiran(){
@@ -20,6 +20,23 @@ class AgendaKehadiranController extends Controller
             'menu_master' => 'false',
             'menu' => 'agenda kehadiran',
             'judul' => 'Agenda Kehadiran',
+            'sekolah' => ProfileSekolahModel::first(),
+            'agendakehadiran' => $agendakehadiran
+        ]);
+    }
+
+    public function presensi(){
+        $agendakehadiran = AgendaKehadiran::where('tanggal', date('Y-m-d'))->first();
+        return view('guru.seksipresensi.presensi.index', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'presensi kehadiran',
+            'judul' => 'Presensi',
             'sekolah' => ProfileSekolahModel::first(),
             'agendakehadiran' => $agendakehadiran
         ]);

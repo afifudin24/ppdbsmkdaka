@@ -137,3 +137,4 @@ Route::get('/guru/verificator/pendaftaran_siswa/lulus/{status}/{id_detail_pendaf
 
 // seksi presensi
 Route::get('/guru/seksipresensi/agendakehadiran', [AgendaKehadiranController::class, 'agenda_kehadiran'])->middleware('is_guru');
+Route::get('/guru/seksipresensi/presensikehadiran', [AgendaKehadiranController::class, 'presensi'])->middleware('is_guru');

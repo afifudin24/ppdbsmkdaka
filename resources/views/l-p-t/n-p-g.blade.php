@@ -91,9 +91,18 @@
 </li>
 
 <li class="sidebar-item">
-    <a class="sidebar-link {{ ($menu == 'presensi kehadiran') ? 'active' : ''; }}" href="{{ url('/guru/seksipresensi/agendakehadiran') }}" aria-expanded="false">
+    <a class="sidebar-link {{ ($menu == 'agenda kehadiran') ? 'active' : ''; }}" href="{{ url('/guru/seksipresensi/agendakehadiran') }}" aria-expanded="false">
         <span>
             <i class="ti ti-clipboard"></i>
+        </span>
+        <span class="hide-menu">Agenda Kehadiran</span>
+    </a>
+</li>
+
+<li class="sidebar-item">
+    <a class="sidebar-link {{ ($menu == 'presensi kehadiran') ? 'active' : ''; }}" href="{{ url('/guru/seksipresensi/presensikehadiran') }}" aria-expanded="false">
+        <span>
+            <i class="ti ti-scan"></i>
         </span>
         <span class="hide-menu">Presensi Kehadiran</span>
     </a>
