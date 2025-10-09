@@ -33,9 +33,7 @@
                     <p class="card-subtitle mb-3">
                         List data-data gelombang pendaftaran
                     </p>
-                    <button class="btn me-1 mb-1 bg-primary-subtle text-primary px-4 fs-4 font-medium" data-bs-toggle="modal" data-bs-target="#modal-tambah-pendaftaran">
-                        Tambah Data
-                    </button>
+              
 
                     {{-- Modal Tambah --}}
                     <div class="modal fade" id="modal-tambah-pendaftaran" tabindex="-1" aria-labelledby="mySmallModalLabel" style="display: none;" aria-hidden="true">
@@ -78,55 +76,7 @@
                             <!-- /.modal-dialog -->
                     </div>
 
-                    {{-- Modal Edit --}}
-                    <div class="modal fade" id="modal-edit-pendaftaran" tabindex="-1" aria-labelledby="mySmallModalLabel" style="display: none;" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header d-flex align-items-center">
-                                    <h4 class="modal-title" id="myModalLabel">
-                                        Edit Pendaftaran
-                                    </h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form action="{{ url('/admin/pendaftaran') }}" method="post" id="form-edit">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="tahun_angkatan">Tahun Angkatan : </label>
-                                            <input type="number" class="form-control" name="etahun_angkatan" id="tahun_angkatan" required>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <label for="gelombang">Gelombang Ke : </label>
-                                            <input type="number" class="form-control" name="egelombang" id="gelombang" required min="1">
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <label for="kuota">Kuota Pendaftaran : </label>
-                                            <input type="number" class="form-control" name="ekuota" id="kuota" required min="1">
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <label for="tutup">Status Pendaftaran : </label>
-                                            <select class="form-control" name="tutup" id="tutup" required>
-                                                <option value="0">Di Buka</option>
-                                                <option value="1">Di Tutup</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn bg-success-subtle text-success font-medium waves-effect">
-                                            Simpan
-                                        </button>
-                                        <button type="button" class="btn bg-danger-subtle text-danger font-medium waves-effect" data-bs-dismiss="modal">
-                                            Close
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        <!-- /.modal-content -->
-                        </div>
-                        <!-- /.modal-dialog -->
-                    </div>
-
+                
                     <div class="table-responsive mt-3">
                         <table id="zero_config" class="table border table-bordered text-nowrap align-middle">
                             <thead>
@@ -159,22 +109,8 @@
                                         </td>
                                         {{-- <td>{{ $pendaftaran->created_at }}</td> --}}
                                         <td>
-                                            <a href="{{ url('/admin/pendaftaran') }}/{{ $pendaftaran->id }}" class="mb-1 badge font-medium bg-info-subtle text-info">Lihat</a>
-                                            <a href="javascript:void(0);" class="mb-1 badge font-medium bg-success-subtle text-success edit" 
-                                                data-url="{{ url('/admin/pendaftaran') }}/{{ $pendaftaran->id }}"
-                                                data-tahun_angkatan="{{ $pendaftaran->tahun_angkatan }}"
-                                                data-gelombang="{{ $pendaftaran->gelombang }}"
-                                                data-kuota="{{ $pendaftaran->kuota }}"
-                                                data-tutup="{{ $pendaftaran->tutup }}"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modal-edit-pendaftaran">
-                                                Edit
-                                            </a>
-                                            <form action="{{ url('/admin/pendaftaran') }}/{{ $pendaftaran->id }}" method="post" style="display: inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="mb-1 badge font-medium bg-danger-subtle text-danger hapus" style="outline: none; border: none;">Hapus</button>
-                                            </form>
+                                            <a href="{{ url('/guru/verificator/lihatpendaftaran') }}/{{ $pendaftaran->id }}" class="mb-1 badge font-medium bg-info-subtle text-info">Lihat</a>
+                                          
                                         </td>
                                     </tr>
                                     <!-- end row -->
@@ -213,14 +149,7 @@
             });
         });
 
-        $('.edit').click(function () {
-            $('input[name=etahun_angkatan]').val($(this).data('tahun_angkatan'));
-            $('input[name=egelombang]').val($(this).data('gelombang'));
-            $('input[name=ekuota]').val($(this).data('kuota'));
-            $('select[name=tutup]').val($(this).data('tutup'));
-
-            $('#form-edit').attr('action', $(this).data('url'));
-        })
+   
       </script>
 
 @endsection

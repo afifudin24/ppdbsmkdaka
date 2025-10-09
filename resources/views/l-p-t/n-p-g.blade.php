@@ -27,7 +27,7 @@
 </li>
 
 <li class="sidebar-item">
-    <a class="sidebar-link {{ ($menu == 'pendaftaran') ? 'active' : ''; }}" href="{{ url('/guru/daftarkansiswa') }}" aria-expanded="false">
+    <a class="sidebar-link {{ ($menu == 'daftarkan siswa') ? 'active' : ''; }}" href="{{ url('/guru/daftarkansiswa') }}" aria-expanded="false">
         <span>
             <i class="ti ti-id-badge"></i>
         </span>
@@ -53,6 +53,15 @@
 </li>
 
 <li class="sidebar-item">
+    <a class="sidebar-link {{ ($menu == 'verifikasi pendaftar') ? 'active' : ''; }}" href="{{ url('/guru/verificator/verifikasi') }}" aria-expanded="false">
+        <span>
+            <i class="ti ti-check"></i>
+        </span>
+        <span class="hide-menu">Verifikasi Pendaftar</span>
+    </a>
+</li>
+
+<li class="sidebar-item">
     <a class="sidebar-link {{ ($menu == 'siswa pendaftar') ? 'active' : ''; }}" href="{{ url('/guru/verificator/siswa') }}" aria-expanded="false">
         <span>
             <i class="ti ti-users"></i>
@@ -69,4 +78,25 @@
         <span class="hide-menu">Pendaftaran</span>
     </a>
 </li>
+@endif
+
+
+
+
+@if(session('user')->seksipresensi)
+    {{-- ---------------------------------- --}}
+ <li class="nav-small-cap">
+    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+    <span class="hide-menu">Seksi Presensi Menu</span>
+</li>
+
+<li class="sidebar-item">
+    <a class="sidebar-link {{ ($menu == 'presensi kehadiran') ? 'active' : ''; }}" href="{{ url('/guru/seksipresensi/agendakehadiran') }}" aria-expanded="false">
+        <span>
+            <i class="ti ti-clipboard"></i>
+        </span>
+        <span class="hide-menu">Presensi Kehadiran</span>
+    </a>
+</li>
+
 @endif

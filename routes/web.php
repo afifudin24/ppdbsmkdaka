@@ -129,3 +129,11 @@ Route::get('/guru/agendakehadiran', [GuruController::class, 'agenda_kehadiran'])
 
 // verificator
 Route::get('/guru/verificator/siswa', [GuruController::class, 'verificator_siswa'])->middleware('is_guru');
+Route::get('/guru/verificator/verifikasi', [GuruController::class, 'verifikasipendaftar'])->middleware('is_guru');
+Route::get('/guru/verificator/pendaftaran', [GuruController::class, 'verificator_pendaftaran'])->middleware('is_guru');
+Route::get('/guru/verificator/lihatpendaftaran/{id}', [GuruController::class, 'verificator_lihat_pendaftaran'])->middleware('is_guru');
+Route::get('/guru/verificator/pendaftaran_siswa/{id}/{siswaId}', [GuruController::class, 'verificator_siswa_pendaftaran'])->middleware('is_guru');
+Route::get('/guru/verificator/pendaftaran_siswa/lulus/{status}/{id_detail_pendaftaran}', [GuruController::class, 'lulus'])->middleware('is_guru');
+
+// seksi presensi
+Route::get('/guru/seksipresensi/agendakehadiran', [AgendaKehadiranController::class, 'agenda_kehadiran'])->middleware('is_guru');

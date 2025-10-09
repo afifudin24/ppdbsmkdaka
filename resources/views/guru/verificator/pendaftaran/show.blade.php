@@ -93,7 +93,7 @@
                                         <td>
                                             @if ($dp->status == 0)
                                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                    <a href="{{ url('/admin/pendaftaran_siswa') }}/{{ $pendaftaran->id }}/{{ $dp->siswa_id }}" class="btn bg-success-subtle btn-sm text-success font-medium">
+                                                    <a href="{{ url('/guru/verificator/pendaftaran_siswa') }}/{{ $pendaftaran->id }}/{{ $dp->siswa_id }}" class="btn bg-success-subtle btn-sm text-success font-medium">
                                                         Lihat Data
                                                     </a>
                                                     <div class="btn-group btn-group-sm" role="group">

@@ -15,9 +15,14 @@ class IsGuru
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (session()->get('role') != 'guru') {
-            return redirect('/');
-        }
-        return $next($request);
+      // Cek apakah sudah login dan role == guru
+    if (session()->missing('role') || session('role') !== 'guru') {
+        // Simpan URL tujuan agar bisa diarahkan kembali setelah login
+        session(['url.intended' => $request->url()]);
+
+        return redirect('/auth/guru');
+    }
+
+    return $next($request);
     }
 }

@@ -282,7 +282,7 @@ $verificator = Verificator::with('guru')->where('start_char', '<=', $hurufAwal)
                           ->first();
 
 if ($verificator) {
-    $loginverif = url("/auth/guru");
+    $loginverif = url("/guru/verificator/verifikasi");
     $nohpverif = $verificator->guru->no_hp;
     $pesan_ke_verificator = "Halo {$verificator->guru->nama},\n\n".
              "Ada calon siswa yang perlu diverifikasi!\n".

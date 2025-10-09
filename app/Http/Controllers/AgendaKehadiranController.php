@@ -8,6 +8,22 @@ use App\Http\Requests\UpdateAgendaKehadiranRequest;
 
 class AgendaKehadiranController extends Controller
 {
+    public function agenda_kehadiran(){
+        $agendakehadiran = AgendaKehadiran::paginate(10);
+         return view('guru.seksipresensi.agendakehadiran.index', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'agenda kehadiran',
+            'judul' => 'Agenda Kehadiran',
+            'sekolah' => ProfileSekolahModel::first(),
+            'agendakehadiran' => $agendakehadiran
+        ]);
+    }
     /**
      * Display a listing of the resource.
      */

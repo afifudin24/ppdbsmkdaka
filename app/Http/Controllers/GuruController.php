@@ -9,14 +9,41 @@ use App\Models\PendaftaranDetailModel;
 use App\Models\PendaftaranModel;
 use App\Models\JurusanModel;
 use App\Models\AgendaKehadiran;
+use App\Models\Verificator;
 use App\Models\ProfileSekolahModel;
 use App\Models\SiswaModel;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Http;
 class GuruController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+           function fixNoHp($nohp)
+{
+    // Hilangkan semua karakter non-angka
+    $nohp = preg_replace('/[^0-9]/', '', $nohp);
+
+    // Jika diawali "0", ganti dengan "62"
+    if (substr($nohp, 0, 1) === '0') {
+        $nohp = '62' . substr($nohp, 1);
+    }
+
+    // Jika diawali "62", biarkan
+    elseif (substr($nohp, 0, 2) === '62') {
+        $nohp = $nohp;
+    }
+
+    // Jika diawali "8" langsung, tambahkan "62"
+    elseif (substr($nohp, 0, 1) === '8') {
+        $nohp = '62' . $nohp;
+    }
+
+    return $nohp;
+}
+
     public function index()
     {
         // dd(session()->get('user'));
@@ -151,7 +178,7 @@ $total_tidak_lulus = PendaftaranDetailModel::where('status', 2)
             'plugins' => '
                 
             ',
-            'menu' => 'pendaftaran',
+            'menu' => 'daftarkan siswa',
             'judul' => 'Input Pendaftaran',
             'sekolah' => ProfileSekolahModel::first(),
             'pendaftaran' => $pendaftaran,
@@ -429,4 +456,168 @@ if ($verificator) {
     ]);
 
     }
+
+    public function verificator_pendaftaran(){
+          return view('guru.verificator.pendaftaran.index', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'pendaftaran verificator',
+            'judul' => 'Data Pendaftaran',
+            'sekolah' => ProfileSekolahModel::first(),
+            'data_pendaftaran' => PendaftaranModel::all()->sortByDesc('id')
+        ]);
+    }
+
+    public function verificator_lihat_pendaftaran($id){
+        $pendaftaran = PendaftaranModel::with('siswa')->find($id);
+         return view('guru.verificator.pendaftaran.show', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'pendaftaran verificator',
+            'judul' => 'Detail Pendaftaran',
+            'sekolah' => ProfileSekolahModel::first(),
+            'pendaftaran' => $pendaftaran
+        ]);
+    }
+
+    public function verificator_siswa_pendaftaran($id_pendaftaran, $id_siswa){
+          $pendaftaran_siswa = PendaftaranDetailModel::with(['siswa.guru'])
+    ->where('pendaftaran_id', $id_pendaftaran)
+    ->where('siswa_id', $id_siswa)
+    ->first();
+      
+
+    return view('guru.verificator.pendaftaran.show-siswa', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'pendaftaran verificator',
+            'judul' => 'Form Pendaftaran Siswa',
+            'sekolah' => ProfileSekolahModel::first(),
+            'pendaftaran' => PendaftaranModel::firstWhere('id', $id_pendaftaran),
+            'pendaftaran_siswa' => $pendaftaran_siswa
+        ]);
+    }
+
+    public function verifikasipendaftar(){
+        $guru = session()->get('user');
+        $verificator = Verificator::with('guru')->where('guru_id', $guru->id )->first();
+       
+        $start_char = $verificator->start_char;
+        $end_char = $verificator->end_char;
+   
+$pendaftaran = PendaftaranDetailModel::with(['siswa', 'pendaftaran'])
+    ->where('status', 0)
+    ->whereHas('siswa', function ($query) use ($start_char, $end_char) {
+        $query->whereRaw("LEFT(nama, 1) BETWEEN ? AND ?", [$start_char, $end_char]);
+    })
+    ->get();
+ 
+         return view('guru.verificator.verifikasi.index', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'verifikasi pendaftar',
+            'judul' => 'Detail Pendaftaran',
+            'sekolah' => ProfileSekolahModel::first(),
+            'pendaftaran' => $pendaftaran
+        ]);
+    }
+
+    
+
+    public function lulus($status, $id_detail_pendaftaran)
+    {
+         $user = session()->get('user');
+       $guru = Guru::with(['user', 'verificator', 'seksipresensi'])
+            ->where('id', $user->id)
+            ->first();
+            // dd($guru);
+         if ($guru->verificator == null) {
+    return abort(403, 'Akses ditolak');
+}
+        $detail_pendaftaran = PendaftaranDetailModel::firstWhere('id', $id_detail_pendaftaran);
+        $siswa = SiswaModel::firstWhere('id', $detail_pendaftaran->siswa_id);
+        $no_registrasi = 'REG-' . str_pad($siswa->id, 5, '0', STR_PAD_LEFT);
+    $siswa->no_regis = $no_registrasi;
+    $dataqr = [
+    'id' => $siswa->id,
+    'no_registrasi' => $siswa->no_regis,
+    'nik' => $siswa->nik,
+    'nama' => $siswa->nama,
+    'alamat' => $siswa->alamat,
+    'asal_sekolah' => $siswa->sekolah_asal
+];
+
+// Simpan QR ke storage/public/qr_code/{id}.png
+ // --- Simpan QR ke public/qr_code ---
+  $qrFile = "qr_code/{$siswa->no_regis}.svg";
+file_put_contents(public_path($qrFile), QrCode::format('svg')->size(200)->generate(json_encode($dataqr)));
+
+$siswa->qr_code = $qrFile; // cukup simpan path
+
+    // --- Simpan PDF ke public/suket ---
+    // $pdfPath = public_path("suket/{$siswa->no_regis}.pdf");
+    // $pdf = PDF::loadView('surat.suket', compact('siswa'));
+    // file_put_contents($pdfPath, $pdf->output());
+    // $siswa->suket = "suket/{$siswa->id}.pdf";
+
+    $siswa->save();
+    // ambil url pdf dan qr ke wa
+
+    $qrUrl = url('/qr-code/' . $siswa->no_regis);
+    $pdfUrl = url('/cetak_surat_keterangan/' . $siswa->no_regis );
+   $pesan = "Selamat, anda dinyatakan *DITERIMA* dan telah diverifikasi.\n\n"
+       . "📌 Silakan cek QR Code di: $qrUrl\n"
+       . "📄 Cetak Surat Keterangan di: $pdfUrl";
+
+    // Kirim ke wa disini
+       Http::get(config('services.wa.url'), [
+    'api_key' => config('services.wa.api_key'),
+    'sender'  => config('services.wa.sender'),
+    'number'  => $this->fixNoHp($siswa->hp),
+    'message' => $pesan,
+    'footer'  => 'SPMB SMK Darussalam Karangpucung'
+]);
+
+     
+
+        $data = [
+            'status' => $status,
+        ];
+
+        PendaftaranDetailModel::where('id', $id_detail_pendaftaran)
+            ->update($data);
+
+        return redirect('/guru/verificator/verifikasi')->with('pesan', "
+            <script>
+                Swal.fire(
+                    {
+                        title: 'Berhasil',
+                        text: 'Status di ubah',
+                        icon: 'success',
+                    }
+                );
+            </script>
+        ");
+    }
+
 }

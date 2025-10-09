@@ -17,7 +17,8 @@
 <!-- Core Css -->
 <link rel="stylesheet" href="{{ url('assets/template') }}/dist/assets/css/styles.css" />
 
-    <title>{{ session()->get('role') }} | {{ $judul }}</title>
+  <title>{{ strtoupper(session()->get('role')) }} | {{ $judul }}</title>
+
     <!-- Owl Carousel  -->
     <link
       rel="stylesheet"

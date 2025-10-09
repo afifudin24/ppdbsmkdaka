@@ -59,7 +59,14 @@ public function login(Request $request)
             ->where('user_id', $user->id)
             ->first();
                 session()->put('user', $guru);
-                return redirect('/guru')->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Guru', 'success'));
+                  // Cek apakah ada URL tujuan sebelumnya
+    $intendedUrl = session('url.intended', '/guru/'); // default ke dashboard guru
+
+    // Hapus session biar gak nyangkut
+    session()->forget('url.intended');
+
+    return redirect($intendedUrl)->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Guru', 'success'));
+               
             } elseif ($user->role === 'admin') {
                 $admin = Admin::with('user')->where('user_id', $user->id)->first();
                 session()->put('user', $admin);
