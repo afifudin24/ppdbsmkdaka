@@ -29,6 +29,34 @@
     <link rel="stylesheet" href="{{ url('assets/template') }}/dist/assets/libs/sweetalert2/dist/sweetalert2.min.css">
     <script src="{{ url('assets/template') }}/dist/assets/libs/sweetalert2/dist/sweetalert2.min.js"></script>
     {!! $plugins !!}
+
+       
+<style>
+    #btnStartScan, #btnStopScan {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    #btnStartScan {
+        background-color: #198754; /* hijau */
+        color: white;
+    }
+
+    #btnStartScan:hover {
+        background-color: #157347;
+    }
+
+    #btnStopScan {
+        background-color: #dc3545; /* merah */
+        color: white;
+    }
+
+    #btnStopScan:hover {
+        background-color: #bb2d3b;
+    }
+</style>
   </head>
 
   <body>

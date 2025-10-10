@@ -49,6 +49,7 @@ Route::post('/admin/profile/akun', [AdminController::class, 'profile_akun'])->mi
 Route::post('/admin/profile/info', [AdminController::class, 'profile_info'])->middleware('is_admin');
 
 Route::resource('/admin/jurusan', AdminJurusanController::class)->middleware('is_admin');
+Route::resource('/admin/agendakehadiran', AgendaKehadiranController::class)->middleware('is_admin');
 
 Route::resource('/admin/siswa', AdminSiswaController::class)->middleware('is_admin');
 
@@ -138,3 +139,4 @@ Route::get('/guru/verificator/pendaftaran_siswa/lulus/{status}/{id_detail_pendaf
 // seksi presensi
 Route::get('/guru/seksipresensi/agendakehadiran', [AgendaKehadiranController::class, 'agenda_kehadiran'])->middleware('is_guru');
 Route::get('/guru/seksipresensi/presensikehadiran', [AgendaKehadiranController::class, 'presensi'])->middleware('is_guru');
+Route::post('/guru/seksipresensi/simpanpresensi', [AgendaKehadiranController::class, 'simpanpresensi'])->middleware('is_guru');

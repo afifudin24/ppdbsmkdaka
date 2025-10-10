@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgendaKehadiran;
+use App\Models\DataKehadiran;
 use App\Http\Requests\StoreAgendaKehadiranRequest;
 use App\Http\Requests\UpdateAgendaKehadiranRequest;
 use App\Models\ProfileSekolahModel;
+use Illuminate\Http\Request;
 class AgendaKehadiranController extends Controller
 {
     public function agenda_kehadiran(){
@@ -41,12 +43,59 @@ class AgendaKehadiranController extends Controller
             'agendakehadiran' => $agendakehadiran
         ]);
     }
+ public function simpanpresensi(Request $request)
+{
+    // 🔹 Validasi input
+    $validated = $request->validate([
+        'agenda_id' => 'required|exists:agenda_kehadiran,id',
+        'siswa_id' => 'required|exists:siswa,id',
+   
+    ]);
+
+    // 🔹 Cek apakah siswa sudah presensi pada agenda ini
+    $cekPresensi = DataKehadiran::where('agenda_id', $request->agenda_id)
+        ->where('siswa_id', $request->siswa_id)
+        ->first();
+
+    if ($cekPresensi) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Siswa sudah melakukan presensi untuk agenda ini.'
+        ], 400);
+    }
+
+    // 🔹 Simpan presensi baru
+    $presensi = new DataKehadiran();
+    $presensi->agenda_id = $request->agenda_id;
+    $presensi->siswa_id = $request->siswa_id;
+    $presensi->status_kehadiran = 'Hadir';
+    $presensi->save();
+
+    // 🔹 Response sukses
+    return response()->json([
+        'status' => true,
+        'message' => 'Presensi berhasil disimpan.'
+    ]);
+}
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+         $agendakehadiran = AgendaKehadiran::paginate(10);
+         return view('admin.agenda_kehadiran.index', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'agenda kehadiran',
+            'judul' => 'Agenda Kehadiran',
+            'sekolah' => ProfileSekolahModel::first(),
+            'agendakehadiran' => $agendakehadiran
+        ]);
     }
 
     /**
@@ -60,10 +109,44 @@ class AgendaKehadiranController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAgendaKehadiranRequest $request)
+    public function store(Request $request)
     {
-        //
+        // 🔹 Validasi input
+        $validated = $request->validate([
+            'nama_agenda' => 'required|string|max:255',
+            'tanggal' => 'required|date',
+        ], [
+            'nama_agenda.required' => 'Nama agenda kehadiran wajib diisi.',
+            'tanggal.required' => 'Tanggal wajib diisi.',
+            'tanggal.date' => 'Format tanggal tidak valid.',
+        ]);
+
+        try {
+            // 🔹 Simpan data ke database
+            AgendaKehadiran::create([
+                'nama_agenda' => $request->nama_agenda,
+                'tanggal' => $request->tanggal,
+            ]);
+
+            // 🔹 Redirect dengan pesan sukses
+            // return redirect()->back()->with('success', 'Agenda kehadiran berhasil ditambahkan.');
+              return redirect('/admin/agendakehadiran')->with('pesan', "
+            <script>
+                Swal.fire(
+                    {
+                        title: 'Berhasil',
+                        text: 'Data disimpan',
+                        icon: 'success',
+                    }
+                );
+            </script>
+        ");
+        } catch (\Exception $e) {
+            // 🔹 Jika terjadi error
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage());
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -84,9 +167,27 @@ class AgendaKehadiranController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAgendaKehadiranRequest $request, AgendaKehadiran $agendaKehadiran)
+    public function update(Request $request, AgendaKehadiran $agendakehadiran)
     {
-        //
+        $data = [
+            'nama_agenda' => $request->nama_agenda,
+            'tanggal' => $request->tanggal
+        ];
+
+        AgendaKehadiran::where('id', $agendakehadiran->id)
+            ->update($data);
+
+        return redirect('/admin/agendakehadiran')->with('pesan', "
+            <script>
+                Swal.fire(
+                    {
+                        title: 'Berhasil',
+                        text: 'Data di edit',
+                        icon: 'success',
+                    }
+                );
+            </script>
+        ");
     }
 
     /**

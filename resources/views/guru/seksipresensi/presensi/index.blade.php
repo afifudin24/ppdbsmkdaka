@@ -19,7 +19,9 @@
         </div>
     </div>
 
-       {{-- QR Scanner Section --}}
+ {{-- Cek apakah ada agenda kehadiran --}}
+@if ($agendakehadiran)
+    {{-- QR Scanner Section --}}
     <div class="row">
         <div class="col-md-6">
             <div class="card shadow-sm">
@@ -41,7 +43,7 @@
                             <input type="text" id="id_siswa" name="id_siswa" class="form-control" readonly>
                         </div>
 
-                        <input type="text" name="agenda_id" value="{{ $agendakehadiran->id }}" hidden>
+                        <input type="text" name="agenda_id" id="agenda_id" value="{{ $agendakehadiran->id }}" hidden>
 
                         <div class="mb-3">
                             <label for="no_registrasi" class="form-label">No Registrasi</label>
@@ -68,6 +70,18 @@
             </div>
         </div>
     </div>
+@else
+    {{-- Pesan jika tidak ada agenda --}}
+    <div class="alert alert-warning text-center mt-4" role="alert">
+        <h3>
+
+            <i class="ti ti-info-circle fs-6"></i>
+        </h3>
+
+        <h5 class="fw-semibold">Tidak ada jadwal kehadiran hari ini.</h5>
+        <p>Silakan konfirmasi ke admin untuk memastikan jadwal presensi.</p>
+    </div>
+@endif
 
     {!! session('pesan') !!}
 
@@ -146,14 +160,16 @@ setTimeout(() => {
             }
 
             // Contoh kirim data via AJAX ke route Laravel
-            fetch('{{ url("guru/presensi/simpan") }}', {
+            fetch('{{ url("guru/seksipresensi/simpanpresensi") }}', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
+               headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
                 body: JSON.stringify({
-                    id_siswa: idSiswa,
+                    siswa_id: idSiswa,
+                    agenda_id : document.getElementById('agenda_id').value,
                     no_registrasi: document.getElementById('no_registrasi').value,
                     nama: document.getElementById('nama').value,
                     asal_sekolah: document.getElementById('asal_sekolah').value
@@ -165,38 +181,18 @@ setTimeout(() => {
                     icon: data.status ? 'success' : 'error',
                     title: data.message
                 });
+                // kosongkan semua inputan
+                document.getElementById('id_siswa').value = '';
+                document.getElementById('no_registrasi').value = '';
+                document.getElementById('nama').value = '';
+                document.getElementById('asal_sekolah').value = '';
             })
-            .catch(() => {
+            .catch((e) => {
+                console.log(e);
                 Swal.fire('Error', 'Terjadi kesalahan saat menyimpan data.', 'error');
             });
         });
     </script>
 
-    
-<style>
-    #btnStartScan, #btnStopScan {
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: 0.3s ease;
-    }
-
-    #btnStartScan {
-        background-color: #198754; /* hijau */
-        color: white;
-    }
-
-    #btnStartScan:hover {
-        background-color: #157347;
-    }
-
-    #btnStopScan {
-        background-color: #dc3545; /* merah */
-        color: white;
-    }
-
-    #btnStopScan:hover {
-        background-color: #bb2d3b;
-    }
-</style>
+ 
 @endsection

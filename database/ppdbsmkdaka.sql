@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Waktu pembuatan: 06 Okt 2025 pada 10.42
+-- Waktu pembuatan: 10 Okt 2025 pada 10.20
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -53,15 +53,18 @@ INSERT INTO `admins` (`id`, `user_id`, `nama`, `email`, `no_hp`, `created_at`, `
 CREATE TABLE `agenda_kehadiran` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nama_agenda` varchar(255) NOT NULL,
-  `tanggal` date NOT NULL
+  `tanggal` date NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `agenda_kehadiran`
 --
 
-INSERT INTO `agenda_kehadiran` (`id`, `nama_agenda`, `tanggal`) VALUES
-(1, 'Kumpul Pertama', '2025-10-06');
+INSERT INTO `agenda_kehadiran` (`id`, `nama_agenda`, `tanggal`, `created_at`, `updated_at`) VALUES
+(1, 'Kumpul Pertamattt', '2025-10-10', '0000-00-00 00:00:00', '2025-10-10 08:19:18'),
+(2, 'Tes aja', '2025-10-11', '2025-10-10 08:04:54', '2025-10-10 08:04:54');
 
 -- --------------------------------------------------------
 
@@ -73,8 +76,17 @@ CREATE TABLE `data_kehadiran` (
   `id` int(11) NOT NULL,
   `agenda_id` bigint(20) UNSIGNED NOT NULL,
   `siswa_id` bigint(20) UNSIGNED NOT NULL,
-  `status_kehadiran` varchar(255) NOT NULL
+  `status_kehadiran` varchar(255) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `data_kehadiran`
+--
+
+INSERT INTO `data_kehadiran` (`id`, `agenda_id`, `siswa_id`, `status_kehadiran`, `updated_at`, `created_at`) VALUES
+(1, 1, 3, 'Hadir', '2025-10-10 07:38:44', '2025-10-10 07:38:44');
 
 -- --------------------------------------------------------
 
@@ -198,7 +210,7 @@ CREATE TABLE `pendaftaran_detail` (
 
 INSERT INTO `pendaftaran_detail` (`id`, `pendaftaran_id`, `siswa_id`, `status`, `notif`, `tgl_verif`, `created_at`, `updated_at`) VALUES
 (2, 1, 2, 1, 1, NULL, '2025-09-28 06:20:38', '2025-09-30 07:02:03'),
-(3, 1, 3, 0, 1, NULL, '2025-09-28 06:20:38', '2025-09-30 07:02:03');
+(3, 1, 3, 1, 1, NULL, '2025-09-28 06:20:38', '2025-10-09 08:12:39');
 
 -- --------------------------------------------------------
 
@@ -316,8 +328,8 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id`, `no_regis`, `user_id`, `referral_id`, `nama`, `nik`, `jurusan`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `hp`, `alamat`, `agama`, `desa`, `kecamatan`, `kabupaten`, `provinsi`, `no_kk`, `nama_ayah`, `nama_ibu`, `sekolah_asal`, `foto`, `akta`, `kk`, `kip`, `suket`, `qr_code`, `created_at`, `updated_at`) VALUES
-(2, 'REG-00002', 18, 19, 'Afif Keren', '3328091205060001', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-30 06:49:50'),
-(3, 'REG-00004', 22, 19, 'Afif lgi', '3328091205324323', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-30 06:49:50');
+(2, 'REG-00002', 18, 19, 'Gfif Keren', '3328091205060001', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-30 06:49:50'),
+(3, 'REG-00003', 22, 19, 'Gfif lgi', '3328091205324323', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00003.svg', '2025-09-28 06:20:38', '2025-10-09 08:11:48');
 
 -- --------------------------------------------------------
 
@@ -489,13 +501,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT untuk tabel `agenda_kehadiran`
 --
 ALTER TABLE `agenda_kehadiran`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_kehadiran`
 --
 ALTER TABLE `data_kehadiran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `gurus`
