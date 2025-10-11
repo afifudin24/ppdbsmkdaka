@@ -111,6 +111,11 @@ class AgendaKehadiranController extends Controller
      */
     public function store(Request $request)
     {
+        $role = session()->get('role');
+        if($role != 'admin'){
+            // berikan eror 403 tidak memiliki akses
+              return abort(403, 'Akses ditolak');
+        }
         // 🔹 Validasi input
         $validated = $request->validate([
             'nama_agenda' => 'required|string|max:255',
@@ -151,9 +156,31 @@ class AgendaKehadiranController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AgendaKehadiran $agendaKehadiran)
+    public function show($id)
     {
-        //
+        $role = session()->get('role');
+     $datakehadiran = DataKehadiran::with(['siswa.pendaftaran'])
+    ->where('agenda_id', $id)
+    ->get();
+    $agenda = AgendaKehadiran::where('id', $id)->first();
+        if($role == 'admin'){
+
+      
+        return view('admin.agenda_kehadiran.show', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'agenda kehadiran',
+            'judul' => 'Agenda Kehadiran',
+            'sekolah' => ProfileSekolahModel::first(),
+            'datakehadiran' => $datakehadiran,
+            'agenda' => $agenda
+        ]);
+          }
     }
 
     /**
@@ -193,8 +220,45 @@ class AgendaKehadiranController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AgendaKehadiran $agendaKehadiran)
-    {
-        //
+ public function destroy($id)
+{
+    $agendaKehadiran = AgendaKehadiran::find($id);
+
+    if (!$agendaKehadiran) {
+        return redirect('/admin/agendakehadiran')->with('pesan', "
+            <script>
+                Swal.fire({
+                    title: 'Gagal',
+                    text: 'Data tidak ditemukan',
+                    icon: 'error',
+                });
+            </script>
+        ");
     }
+
+    // Hapus data dan cek apakah berhasil
+    $deleted = $agendaKehadiran->delete();
+
+    if ($deleted) {
+        return redirect('/admin/agendakehadiran')->with('pesan', "
+            <script>
+                Swal.fire({
+                    title: 'Berhasil',
+                    text: 'Data berhasil dihapus',
+                    icon: 'success',
+                });
+            </script>
+        ");
+    } else {
+        return redirect('/admin/agendakehadiran')->with('pesan', "
+            <script>
+                Swal.fire({
+                    title: 'Gagal',
+                    text: 'Data gagal dihapus',
+                    icon: 'error',
+                });
+            </script>
+        ");
+    }
+}
 }

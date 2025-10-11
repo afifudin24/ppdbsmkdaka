@@ -22,4 +22,9 @@ class DataKehadiran extends Model
     {
         return $this->belongsTo(AgendaKehadiran::class, 'agenda_id');
     }
+
+    public function siswa()
+    {
+        return $this->belongsTo(SiswaModel::class, 'siswa_id');
+    }
 }

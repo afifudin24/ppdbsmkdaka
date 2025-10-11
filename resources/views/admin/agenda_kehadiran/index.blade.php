@@ -59,9 +59,14 @@
 
                                     </td>
                                     <td>
-                                        <a href="{{ url('guru/agenda-kehadiran/'.$agenda->id.'/detail') }}" class="btn btn-primary btn-sm"><i class="fa fa-info"></i> Lihat Kehadiran </a>
+                                        <a href="{{ url('admin/agendakehadiran/'.$agenda->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-info"></i> Lihat Kehadiran </a>
                                              <a href="javascript:void(0);" class="mb-1 badge font-medium bg-success-subtle text-success edit" data-url="{{ url('/admin/agendakehadiran') }}/{{ $agenda->id }}" data-nama="{{ $agenda->nama_agenda }}" data-tanggal="{{ $agenda->tanggal }}"  data-bs-toggle="modal" data-bs-target="#modal-edit-jurusan">Edit</a>
-                                    </td>
+                                          <form action="{{ url('/admin/agendakehadiran') }}/{{ $agenda->id }}" method="post" style="display: inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="mb-1 badge font-medium bg-danger-subtle text-danger hapus" style="outline: none; border: none;">Hapus</button>
+                                        </form>
+                                            </td>
                                 </tr>
                                 <!-- end row -->
                             @endforeach

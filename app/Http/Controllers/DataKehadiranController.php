@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Exports\DataKehadiranExport;
 use App\Models\DataKehadiran;
+use App\Models\AgendaKehadiran;
 use App\Http\Requests\StoreDataKehadiranRequest;
 use App\Http\Requests\UpdateDataKehadiranRequest;
-
+use Maatwebsite\Excel\Facades\Excel;
 class DataKehadiranController extends Controller
 {
     /**
@@ -62,5 +63,18 @@ class DataKehadiranController extends Controller
     public function destroy(DataKehadiran $dataKehadiran)
     {
         //
+    }
+    public function cetakdatakehadiran($id){
+        
+         $datakehadiran = DataKehadiran::with(['siswa.pendaftaran', 'siswa.guru'])
+    ->where('agenda_id', $id)
+    ->get();
+    // dd($datakehadiran);
+    $agenda = AgendaKehadiran::where('id', $id)->first();
+        // $sekolah = ProfileSekolahModel::first();
+
+
+        return Excel::download(new DataKehadiranExport($datakehadiran, $agenda), $agenda->nama_agenda . "-".  date('Y-m-d'). "data-kehadiran.xlsx");
+    
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\SuratKeteranganController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\DataKehadiranController;
 use App\Models\PendaftaranModel;
 use App\Models\ProfileSekolahModel;
 use Illuminate\Support\Facades\Route;
@@ -50,7 +51,7 @@ Route::post('/admin/profile/info', [AdminController::class, 'profile_info'])->mi
 
 Route::resource('/admin/jurusan', AdminJurusanController::class)->middleware('is_admin');
 Route::resource('/admin/agendakehadiran', AgendaKehadiranController::class)->middleware('is_admin');
-
+Route::get('/admin/agendakehadiran/cetak/{id}', [DataKehadiranController::class, 'cetakdatakehadiran'])->middleware('role:admin,guru');
 Route::resource('/admin/siswa', AdminSiswaController::class)->middleware('is_admin');
 
 // Guru

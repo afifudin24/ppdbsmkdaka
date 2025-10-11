@@ -54,4 +54,7 @@ class SiswaModel extends Model
         return $this->hasOne(PendaftaranDetailModel::class, 'siswa_id', 'id');
         // kalau 1 siswa bisa daftar lebih dari sekali pakai hasMany()
     }
+    public function datakehadiran(){
+        return $this->hasMany(DataKehadiran::class, 'siswa_id', 'id');
+    }
 }
