@@ -29,7 +29,7 @@
                         <h5 class="mb-0">Data Siswa</h5>
                         {{-- filter siswa  --}}
                         <div class="row"> 
-                            <div class="col-md-6 my-3">
+                            <div class="col-md-4 my-3">
                                 {{-- kasih select option Siswa diterima, menunggu verifikasi dan tidak diterima --}}
                                <form action="{{ url('/admin/siswa') }}" method="GET">
     <div class="form-group">
@@ -43,6 +43,9 @@
 </form>
 
 
+                            </div>
+                            <div class="col-md-2 my-3">
+                                <a href="{{ url('/guru/verificator/siswa/ekspor') }}" class="btn btn-success">Ekspor Excel</a>
                             </div>
                         </div>
                     </div>

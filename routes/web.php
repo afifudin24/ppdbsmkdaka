@@ -43,6 +43,8 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/auth/daftar', [AuthController::class, 'daftar']);
 Route::post('/auth/daftar', [AuthController::class, 'store']);
 
+// ekspor siswa
+Route::get('/admin/siswa/ekspor', [SiswaController::class, 'admin_ekspor'])->name('admin_ekspor')->middleware('is_admin');
 Route::get('/admin', [AdminController::class, 'index'])->middleware('is_admin');
 Route::get('/admin/profile', [AdminController::class, 'profile'])->middleware('is_admin');
 Route::post('/admin/profile/foto', [AdminController::class, 'profile_foto'])->middleware('is_admin');
@@ -128,6 +130,7 @@ Route::get('/guru/kehadiransiswa', [GuruController::class, 'kehadiran_siswa'])->
 
 // agenda kehadiran siswa
 Route::get('/guru/agendakehadiran', [GuruController::class, 'agenda_kehadiran'])->middleware('is_guru');
+Route::get('/guru/agendakehadiran/{id}', [GuruController::class, 'agenda_kehadiran_detail'])->middleware('is_guru');
 
 // verificator
 Route::get('/guru/verificator/siswa', [GuruController::class, 'verificator_siswa'])->middleware('is_guru');
@@ -136,6 +139,9 @@ Route::get('/guru/verificator/pendaftaran', [GuruController::class, 'verificator
 Route::get('/guru/verificator/lihatpendaftaran/{id}', [GuruController::class, 'verificator_lihat_pendaftaran'])->middleware('is_guru');
 Route::get('/guru/verificator/pendaftaran_siswa/{id}/{siswaId}', [GuruController::class, 'verificator_siswa_pendaftaran'])->middleware('is_guru');
 Route::get('/guru/verificator/pendaftaran_siswa/lulus/{status}/{id_detail_pendaftaran}', [GuruController::class, 'lulus'])->middleware('is_guru');
+
+// ekspor siswa
+Route::get('/guru/verificator/siswa/ekspor', [SiswaController::class, 'ekspor'])->middleware('is_guru');
 
 // seksi presensi
 Route::get('/guru/seksipresensi/agendakehadiran', [AgendaKehadiranController::class, 'agenda_kehadiran'])->middleware('is_guru');

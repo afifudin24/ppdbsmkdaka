@@ -18,7 +18,10 @@ class AdminSiswaController extends Controller
     $status = $request->input('status');
 
     // Query dasar dengan relasi pendaftaran
-    $query = SiswaModel::with('pendaftaran');
+   $query = SiswaModel::with([
+    'pendaftaran',
+    'datakehadiran.agenda'
+   ]);
 
     // Jika ada filter status, tambahkan kondisi
     if ($status !== null && $status !== '') {
@@ -28,6 +31,7 @@ class AdminSiswaController extends Controller
     }
 
     $data_siswa = $query->get();
+//   dd($data_siswa);
 
     return view('admin.siswa.index', [
         'plugins' => '

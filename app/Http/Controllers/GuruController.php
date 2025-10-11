@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateGuruRequest;
 use App\Models\PendaftaranDetailModel;
 use App\Models\PendaftaranModel;
 use App\Models\JurusanModel;
+use App\Models\DataKehadiran;
 use App\Models\AgendaKehadiran;
 use App\Models\Verificator;
 use App\Models\ProfileSekolahModel;
@@ -129,7 +130,7 @@ $total_tidak_lulus = PendaftaranDetailModel::where('status', 2)
     
 
     // Query dasar dengan relasi pendaftaran
-    $query = SiswaModel::with('pendaftaran')->where('referral_id', $user->id);
+    $query = SiswaModel::with('pendaftaran', 'datakehadiran.agenda')->where('referral_id', $user->id);
 
     // Jika ada filter status, tambahkan kondisi
     if ($status !== null && $status !== '') {
@@ -407,7 +408,7 @@ if ($verificator) {
             <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
         ',
             'menu_master' => 'false',
-            'menu' => 'kehadiran siswa',
+            'menu' => 'kehadiran',
             'judul' => 'Kehadiran Siswa',
             'sekolah' => ProfileSekolahModel::first(),
             'data_agenda' => $data_agenda,
@@ -429,7 +430,10 @@ if ($verificator) {
     $status = $request->input('status');
 
     // Query dasar dengan relasi pendaftaran
-    $query = SiswaModel::with('pendaftaran');
+    $query = SiswaModel::with([
+    'pendaftaran',
+    'datakehadiran.agenda'
+   ]);
 
     // Jika ada filter status, tambahkan kondisi
     if ($status !== null && $status !== '') {
@@ -619,5 +623,38 @@ $siswa->qr_code = $qrFile; // cukup simpan path
             </script>
         ");
     }
+
+          public function agenda_kehadiran_detail($id)
+    {
+        $role = session()->get('role');
+        $user = session()->get('user');
+    $datakehadiran = DataKehadiran::with(['siswa.pendaftaran'])
+    ->where('agenda_id', $id)
+    ->whereHas('siswa', function ($query) use ($user) {
+        $query->where('referral_id', $user->id);
+    })
+    ->get();
+    $agenda = AgendaKehadiran::where('id', $id)->first();
+       
+
+      
+        return view('guru.agenda_kehadiran.show', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'kehadiran',
+            'judul' => 'Kehadiran Siswa',
+          
+            'sekolah' => ProfileSekolahModel::first(),
+            'datakehadiran' => $datakehadiran,
+            'agenda' => $agenda
+        ]);
+          
+    }
+
 
 }

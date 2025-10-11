@@ -8,13 +8,15 @@ use App\Models\PendaftaranModel;
 use App\Models\ProfileSekolahModel;
 use App\Models\Verificator;
 use App\Models\SiswaModel;
+use App\Models\Guru;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SiswaExport;
 class SiswaController extends Controller
 {
     public function index()
@@ -548,5 +550,53 @@ if ($request->hasFile('kip')) {
             ->update($data);
 
         return redirect('/siswa/pendaftaran');
+    }
+
+    public function ekspor(){
+    
+         $role = session()->get('role');
+         $user = session()->get('user');
+         if($role != 'admin'){
+               $guru = Guru::with(['user', 'verificator', 'seksipresensi'])
+            ->where('id', $user->id)
+            ->first();
+            // dd($guru);
+         if ($guru->verificator == null) {
+    return abort(403, 'Akses ditolak');
+}
+         }
+         $datasiswa = SiswaModel::with([
+            'guru',
+            'pendaftaran',
+            'datakehadiran.agenda'
+         ])->get();
+    
+
+
+        return Excel::download(new SiswaExport($datasiswa), "Data-Siswa" . "-".  date('Y-m-d'). ".xlsx");
+    }
+    
+    public function admin_ekspor(){
+      
+         $role = session()->get('role');
+         $user = session()->get('user');
+         if($role != 'admin'){
+               $guru = Guru::with(['user', 'verificator', 'seksipresensi'])
+            ->where('id', $user->id)
+            ->first();
+            // dd($guru);
+         if ($guru->verificator == null) {
+    return abort(403, 'Akses ditolak');
+}
+         }
+         $datasiswa = SiswaModel::with([
+            'guru',
+            'pendaftaran',
+            'datakehadiran.agenda'
+         ])->get();
+    
+
+
+        return Excel::download(new SiswaExport($datasiswa), "Data-Siswa" . "-".  date('Y-m-d'). ".xlsx");
     }
 }

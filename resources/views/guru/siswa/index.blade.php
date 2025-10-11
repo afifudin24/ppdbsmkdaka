@@ -179,6 +179,10 @@ $format_tanggal = function ($tanggal) {
                     <th>Sekolah Asal</th>
                     <td>: {{ $siswa->sekolah_asal ?? '-' }}</td>
                 </tr>
+                <tr>
+                    <th>Kehadiran</th>
+                    <td>: {{ $siswa->datakehadiran[0]->agenda->nama_agenda ?? '-' }}</td>
+                </tr>
             </table>
         </div>
     </div>

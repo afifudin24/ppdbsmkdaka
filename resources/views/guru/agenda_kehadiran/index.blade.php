@@ -56,7 +56,7 @@
 
                                     </td>
                                     <td>
-                                        <a href="{{ url('guru/agenda-kehadiran/'.$agenda->id.'/detail') }}" class="btn btn-primary btn-sm"><i class="fa fa-info"></i> Lihat Kehadiran </a>
+                                        <a href="{{ url('guru/agendakehadiran/'.$agenda->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-info"></i> Lihat Kehadiran </a>
                                     </td>
                                 </tr>
                                 <!-- end row -->

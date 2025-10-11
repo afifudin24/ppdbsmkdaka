@@ -27,6 +27,34 @@ class AgendaKehadiranController extends Controller
         ]);
     }
 
+      public function agenda_kehadiran_detail($id)
+    {
+        $role = session()->get('role');
+     $datakehadiran = DataKehadiran::with(['siswa.pendaftaran'])
+    ->where('agenda_id', $id)
+    ->get();
+    $agenda = AgendaKehadiran::where('id', $id)->first();
+        if($role == 'admin'){
+
+      
+        return view('admin.agenda_kehadiran.show', [
+            'plugins' => '
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" />
+                <script src="' . url('/assets/template') . '/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+                <link rel="stylesheet" href="' . url('/assets/template') . '/dist/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('/assets/template') . '/dist/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu_master' => 'false',
+            'menu' => 'agenda kehadiran',
+            'judul' => 'Agenda Kehadiran',
+            'sekolah' => ProfileSekolahModel::first(),
+            'datakehadiran' => $datakehadiran,
+            'agenda' => $agenda
+        ]);
+          }
+    }
+
+
     public function presensi(){
         $agendakehadiran = AgendaKehadiran::where('tanggal', date('Y-m-d'))->first();
         return view('guru.seksipresensi.presensi.index', [
