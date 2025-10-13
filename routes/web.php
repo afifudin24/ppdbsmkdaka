@@ -90,6 +90,8 @@ Route::get('/siswa/cetak_pendaftaran/{pendaftaran:id}', [SiswaController::class,
 Route::get('/siswa/pendaftaran_cetak/{pendaftaran:id}', [SiswaController::class, 'cetak_bukti'])->middleware('is_siswa');
 Route::get('/siswa/notif/{id}', [SiswaController::class, 'notif'])->middleware('is_siswa');
 
+Route::get('/siswa/datadiri', [SiswaController::class, 'datadiri'])->middleware('is_siswa');
+
 Route::get('/siswa/profile', [SiswaController::class, 'profile'])->middleware('is_siswa');
 Route::post('/siswa/profile', [SiswaController::class, 'update_profile'])->middleware('is_siswa');
 Route::post('/siswa/edit_foto', [SiswaController::class, 'edit_foto'])->middleware('is_siswa');

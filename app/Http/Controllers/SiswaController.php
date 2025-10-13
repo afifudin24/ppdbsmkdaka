@@ -52,6 +52,8 @@ class SiswaController extends Controller
 
     public function profile()
     {
+        $user = session()->get('user');
+        $siswa = SiswaModel::firstWhere('id', $user->id);
         return view('siswa.profile', [
             'plugins' => '
                 <link rel="stylesheet" href="' . url('assets/template/dist') . '/assets/libs/prismjs/themes/prism-okaidia.min.css">
@@ -59,9 +61,23 @@ class SiswaController extends Controller
             ',
             'menu' => 'profile',
             'judul' => 'My Profile',
-            'user' => SiswaModel::firstWhere('id', session()->get('id')),
+            'user' => $siswa,
             'sekolah' => ProfileSekolahModel::first(),
         ]);
+    }
+    public function datadiri(){
+        $user = session()->get('user');
+        $siswa = SiswaModel::firstWhere('id', $user->id);
+        return view('siswa.datadiri', [
+             'plugins' => '
+                <link rel="stylesheet" href="' . url('assets/template/dist') . '/assets/libs/prismjs/themes/prism-okaidia.min.css">
+                <script src="' . url('assets/template/dist') . '/assets/libs/prismjs/prism.js"></script>
+            ',
+            'menu' => 'profile',
+            'judul' => 'My Profile',
+            'user' => $siswa,
+            'sekolah' => ProfileSekolahModel::first(),
+        ])
     }
     public function edit_foto(Request $request)
     {

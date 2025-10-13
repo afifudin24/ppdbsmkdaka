@@ -27,6 +27,15 @@
 </li>
 
 <li class="sidebar-item">
+    <a class="sidebar-link {{ ($menu == 'data diri') ? 'active' : ''; }}" href="{{ url('/siswa/datadiri') }}" aria-expanded="false">
+        <span>
+            <i class="ti ti-user"></i>
+        </span>
+        <span class="hide-menu">Data Diri</span>
+    </a>
+</li>
+
+<li class="sidebar-item">
     <a class="sidebar-link {{ ($menu == 'pendaftaran') ? 'active' : ''; }}" href="{{ url('/siswa/pendaftaran') }}" aria-expanded="false">
         <span>
             <i class="ti ti-files"></i>
