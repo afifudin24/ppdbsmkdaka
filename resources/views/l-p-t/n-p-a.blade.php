@@ -60,6 +60,14 @@
     </a>
 </li>
 <li class="sidebar-item">
+    <a class="sidebar-link {{ ($menu == 'tata usaha') ? 'active' : ''; }}" href="{{ url('/admin/tata_usaha') }}" aria-expanded="false">
+        <span>
+            <i class="ti ti-briefcase"></i>
+        </span>
+        <span class="hide-menu">Tata Usaha</span>
+    </a>
+</li>
+<li class="sidebar-item">
     <a class="sidebar-link {{ ($menu == 'agenda kehadiran') ? 'active' : ''; }}" href="{{ url('/admin/agendakehadiran') }}" aria-expanded="false">
         <span>
             <i class="ti ti-calendar"></i>

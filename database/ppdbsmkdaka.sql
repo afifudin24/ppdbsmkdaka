@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Waktu pembuatan: 14 Okt 2025 pada 09.04
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 14 Okt 2025 pada 14.52
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -74,9 +74,17 @@ INSERT INTO `agenda_kehadiran` (`id`, `nama_agenda`, `tanggal`, `created_at`, `u
 CREATE TABLE `atribut` (
   `id` bigint(20) NOT NULL,
   `siswa_id` bigint(20) UNSIGNED NOT NULL,
+  `tanggal` date NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `atribut`
+--
+
+INSERT INTO `atribut` (`id`, `siswa_id`, `tanggal`, `created_at`, `updated_at`) VALUES
+(4, 2, '2025-10-14', '2025-10-14 10:22:40', '2025-10-14 10:22:40');
 
 -- --------------------------------------------------------
 
@@ -90,9 +98,17 @@ CREATE TABLE `daftar_ulang` (
   `jumlah` int(255) NOT NULL,
   `tanggal` date NOT NULL,
   `keterangan` text NOT NULL,
+  `status` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `daftar_ulang`
+--
+
+INSERT INTO `daftar_ulang` (`id`, `siswa_id`, `jumlah`, `tanggal`, `keterangan`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 10000, '2025-10-14', 'Cicil dulu', 'cicil', '2025-10-14 09:59:42', '2025-10-14 09:59:42');
 
 -- --------------------------------------------------------
 
@@ -373,6 +389,13 @@ CREATE TABLE `tata_usaha` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `tata_usaha`
+--
+
+INSERT INTO `tata_usaha` (`id`, `guru_id`, `created_at`, `updated_at`) VALUES
+(1, 19, '2025-10-14 08:58:02', '2025-10-14 08:58:02');
+
 -- --------------------------------------------------------
 
 --
@@ -566,6 +589,18 @@ ALTER TABLE `agenda_kehadiran`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT untuk tabel `atribut`
+--
+ALTER TABLE `atribut`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT untuk tabel `daftar_ulang`
+--
+ALTER TABLE `daftar_ulang`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `data_kehadiran`
 --
 ALTER TABLE `data_kehadiran`
@@ -617,7 +652,7 @@ ALTER TABLE `profile_sekolah`
 -- AUTO_INCREMENT untuk tabel `seksi_presensi`
 --
 ALTER TABLE `seksi_presensi`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `siswa`
@@ -629,7 +664,7 @@ ALTER TABLE `siswa`
 -- AUTO_INCREMENT untuk tabel `tata_usaha`
 --
 ALTER TABLE `tata_usaha`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

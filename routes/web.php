@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminJurusanController;
 use App\Http\Controllers\AdminPendaftaranController;
 use App\Http\Controllers\AgendaKehadiranController;
 use App\Http\Controllers\AdminSiswaController;
+use App\Http\Controllers\TataUsahaController;
 use App\Http\Controllers\AdminGuruController;
 use App\Http\Controllers\SuratKeteranganController;
 use App\Http\Controllers\AuthController;
@@ -71,6 +72,14 @@ Route::get('/admin/seksi_presensi', [AdminGuruController::class, 'seksi_presensi
 Route::post('/admin/store_seksi_presensi', [AdminGuruController::class, 'store_seksi_presensi'])
     ->middleware('is_admin');
 Route::delete('/admin/delete_seksi_presensi/{id}', [AdminGuruController::class, 'delete_seksi_presensi'])->middleware('is_admin');
+
+
+// tata usaha
+Route::get('/admin/tata_usaha', [TataUsahaController::class, 'index'])
+    ->middleware('is_admin');
+Route::post('/admin/store_tata_usaha', [TataUsahaController::class, 'store'])
+    ->middleware('is_admin');
+Route::delete('/admin/delete_tata_usaha/{id}', [TataUsahaController::class, 'destroy'])->middleware('is_admin');
 
 Route::resource('/admin/pendaftaran', AdminPendaftaranController::class)->middleware('is_admin');
 Route::get('/admin/pendaftaran_siswa/{id_pendaftaran}/{id_siswa}', [AdminPendaftaranController::class, 'show_siswa'])->middleware('is_admin');
@@ -149,3 +158,8 @@ Route::get('/guru/verificator/siswa/ekspor', [SiswaController::class, 'ekspor'])
 Route::get('/guru/seksipresensi/agendakehadiran', [AgendaKehadiranController::class, 'agenda_kehadiran'])->middleware('is_guru');
 Route::get('/guru/seksipresensi/presensikehadiran', [AgendaKehadiranController::class, 'presensi'])->middleware('is_guru');
 Route::post('/guru/seksipresensi/simpanpresensi', [AgendaKehadiranController::class, 'simpanpresensi'])->middleware('is_guru');
+
+// tatausaha
+Route::get('/guru/tatausaha/datasiswa', [TataUsahaController::class, 'data_siswa'])->middleware('is_guru');
+Route::post('/guru/tatausaha/ceklistatribut/{id}', [TataUsahaController::class, 'ceklistAtribut']);
+Route::post('/guru/tatausaha/daftarulang', [TataUsahaController::class, 'daftarulang']);

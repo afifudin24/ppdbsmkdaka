@@ -109,3 +109,22 @@
 </li>
 
 @endif
+
+@if(session('user')->tatausaha)
+    {{-- ---------------------------------- --}}
+ <li class="nav-small-cap">
+    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+    <span class="hide-menu">Tata Usaha Menu</span>
+</li>
+
+<li class="sidebar-item">
+    <a class="sidebar-link {{ ($menu == 'data siswa tu') ? 'active' : ''; }}" href="{{ url('/guru/tatausaha/datasiswa') }}" aria-expanded="false">
+        <span>
+            <i class="ti ti-users"></i>
+        </span>
+        <span class="hide-menu">Data Siswa</span>
+    </a>
+</li>
+
+
+@endif

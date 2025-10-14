@@ -57,4 +57,13 @@ class SiswaModel extends Model
     public function datakehadiran(){
         return $this->hasMany(DataKehadiran::class, 'siswa_id', 'id');
     }
+
+    // relasi dengan daftar ulang dan atribut
+    public function daftarulang(){
+        return $this->hasMany(DaftarUlang::class, 'siswa_id', 'id');
+    }
+   public function atribut()
+    {
+        return $this->hasOne(Atribut::class, 'siswa_id');
+    }
 }

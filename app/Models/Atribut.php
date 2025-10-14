@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DaftarUlang extends Model
+class Atribut extends Model
 {
-    use HasFactory;
-
-    protected $table = 'daftar_ulang';
+ 
+      use HasFactory;
+    protected $table = 'atribut';
 
     protected $guarded = [];
     protected $fillable = [
         'siswa_id',
         'tanggal',
-        'jumlah',
-        'status',
-        'keterangan',
     ];
 
     public function siswa(){
