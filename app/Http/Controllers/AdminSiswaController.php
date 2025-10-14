@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PendaftaranDetailModel;
 use App\Models\ProfileSekolahModel;
 use App\Models\SiswaModel;
+use App\Models\JurusanModel;
 use Illuminate\Http\Request;
 
 class AdminSiswaController extends Controller
@@ -45,7 +46,8 @@ class AdminSiswaController extends Controller
         'judul' => 'Data Siswa',
         'sekolah' => ProfileSekolahModel::first(),
         'data_siswa' => $data_siswa,
-        'status_selected' => $status // dikirim agar option tetap terpilih
+        'status_selected' => $status, // dikirim agar option tetap terpilih
+        'jurusan' => JurusanModel::all()
     ]);
 }
 
@@ -84,11 +86,31 @@ class AdminSiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SiswaModel $siswa)
-    {
-        //
-    }
+ public function update(Request $request, SiswaModel $siswa)
+{
+    // Validasi input
+    $request->validate([
+        'jurusan' => 'required|string|max:100',
+    ]);
 
+    // Update kolom jurusan
+    $siswa->update([
+        'jurusan' => $request->jurusan,
+    ]);
+
+    // Redirect kembali dengan pesan sukses
+    return redirect()->back()->with('pesan', "
+            <script>
+                Swal.fire(
+                    {
+                        title: 'Berhasil',
+                        text: 'Data siswa diperbarui',
+                        icon: 'success',
+                    }
+                );
+            </script>
+        ");
+}
     /**
      * Remove the specified resource from storage.
      */

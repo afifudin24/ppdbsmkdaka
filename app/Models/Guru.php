@@ -38,6 +38,11 @@ class Guru extends Model
         return $this->hasOne(SeksiPresensi::class, 'guru_id');
     }
 
+    public function tatausaha()
+    {
+        return $this->hasOne(SeksiPresensi::class, 'guru_id');
+    }
+
 
 
 }

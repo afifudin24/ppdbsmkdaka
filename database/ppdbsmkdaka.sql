@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Waktu pembuatan: 10 Okt 2025 pada 10.20
+-- Waktu pembuatan: 14 Okt 2025 pada 09.04
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -63,8 +63,36 @@ CREATE TABLE `agenda_kehadiran` (
 --
 
 INSERT INTO `agenda_kehadiran` (`id`, `nama_agenda`, `tanggal`, `created_at`, `updated_at`) VALUES
-(1, 'Kumpul Pertamattt', '2025-10-10', '0000-00-00 00:00:00', '2025-10-10 08:19:18'),
-(2, 'Tes aja', '2025-10-11', '2025-10-10 08:04:54', '2025-10-10 08:04:54');
+(1, 'Kumpul Pertamattt', '2025-10-10', '0000-00-00 00:00:00', '2025-10-10 08:19:18');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `atribut`
+--
+
+CREATE TABLE `atribut` (
+  `id` bigint(20) NOT NULL,
+  `siswa_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `daftar_ulang`
+--
+
+CREATE TABLE `daftar_ulang` (
+  `id` bigint(20) NOT NULL,
+  `siswa_id` bigint(20) UNSIGNED NOT NULL,
+  `jumlah` int(255) NOT NULL,
+  `tanggal` date NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -86,7 +114,8 @@ CREATE TABLE `data_kehadiran` (
 --
 
 INSERT INTO `data_kehadiran` (`id`, `agenda_id`, `siswa_id`, `status_kehadiran`, `updated_at`, `created_at`) VALUES
-(1, 1, 3, 'Hadir', '2025-10-10 07:38:44', '2025-10-10 07:38:44');
+(1, 1, 3, 'Hadir', '2025-10-10 07:38:44', '2025-10-10 07:38:44'),
+(2, 1, 2, 'H', '2025-10-11 03:01:22', '2025-10-11 03:01:22');
 
 -- --------------------------------------------------------
 
@@ -328,8 +357,21 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id`, `no_regis`, `user_id`, `referral_id`, `nama`, `nik`, `jurusan`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `hp`, `alamat`, `agama`, `desa`, `kecamatan`, `kabupaten`, `provinsi`, `no_kk`, `nama_ayah`, `nama_ibu`, `sekolah_asal`, `foto`, `akta`, `kk`, `kip`, `suket`, `qr_code`, `created_at`, `updated_at`) VALUES
-(2, 'REG-00002', 18, 19, 'Gfif Keren', '3328091205060001', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-09-30 06:49:50'),
-(3, 'REG-00003', 22, 19, 'Gfif lgi', '3328091205324323', 'IPA (Ilmu Pengetahuan Alam)', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00003.svg', '2025-09-28 06:20:38', '2025-10-09 08:11:48');
+(2, 'REG-00002', 18, 19, 'Gfif Keren', '3328091205060001', 'Teknik Komputer dan Jaringan', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00002.svg', '2025-09-28 06:20:38', '2025-10-14 04:19:41'),
+(3, 'REG-00003', 22, 19, 'Gfif lgi', '3328091205324323', 'Teknik Komputer dan Jaringan', 'L', 'Cilacap', '2002-02-20', '6281548769365', 'Desa Surusunda Rt 01 Rw 03', 'Islam', 'Surusunda', 'Karangpucung', 'Cilacap', 'Jawa Tengah', 3301122308210005, 'tukiem', 'tukirno', 'Sekolah Ini', 'bOsmPdAs1A4cZLpcJ9Of7O5DAAcnLg5ArQvY9z2z.png', 'ydfmuMmhMvUN5mr2zDbgfVSbTrsFQHsQio6WsMmK.png', 'wjD58yCdeJEWikBH8R8zDFlyIxPvxR9Irhs52Kag.png', 'cQRbtVeBcD5sfubslluVNtMWPVAk1Oylb8dVxJEP.jpg', 'suket/2.pdf', 'qr_code/REG-00003.svg', '2025-09-28 06:20:38', '2025-10-09 08:11:48');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tata_usaha`
+--
+
+CREATE TABLE `tata_usaha` (
+  `id` bigint(20) NOT NULL,
+  `guru_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -406,6 +448,19 @@ ALTER TABLE `agenda_kehadiran`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `atribut`
+--
+ALTER TABLE `atribut`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `siswa_id` (`siswa_id`);
+
+--
+-- Indeks untuk tabel `daftar_ulang`
+--
+ALTER TABLE `daftar_ulang`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `data_kehadiran`
 --
 ALTER TABLE `data_kehadiran`
@@ -474,6 +529,13 @@ ALTER TABLE `siswa`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `tata_usaha`
+--
+ALTER TABLE `tata_usaha`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `guru_id` (`guru_id`);
+
+--
 -- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
@@ -507,7 +569,7 @@ ALTER TABLE `agenda_kehadiran`
 -- AUTO_INCREMENT untuk tabel `data_kehadiran`
 --
 ALTER TABLE `data_kehadiran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `gurus`
@@ -564,6 +626,12 @@ ALTER TABLE `siswa`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT untuk tabel `tata_usaha`
+--
+ALTER TABLE `tata_usaha`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
@@ -586,6 +654,12 @@ ALTER TABLE `admins`
   ADD CONSTRAINT `admins_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
+-- Ketidakleluasaan untuk tabel `atribut`
+--
+ALTER TABLE `atribut`
+  ADD CONSTRAINT `atribut_ibfk_1` FOREIGN KEY (`siswa_id`) REFERENCES `siswa` (`id`);
+
+--
 -- Ketidakleluasaan untuk tabel `data_kehadiran`
 --
 ALTER TABLE `data_kehadiran`
@@ -603,6 +677,12 @@ ALTER TABLE `gurus`
 --
 ALTER TABLE `seksi_presensi`
   ADD CONSTRAINT `seksi_presensi_ibfk_1` FOREIGN KEY (`guru_id`) REFERENCES `gurus` (`id`);
+
+--
+-- Ketidakleluasaan untuk tabel `tata_usaha`
+--
+ALTER TABLE `tata_usaha`
+  ADD CONSTRAINT `tata_usaha_ibfk_1` FOREIGN KEY (`guru_id`) REFERENCES `gurus` (`id`);
 
 --
 -- Ketidakleluasaan untuk tabel `verificator`

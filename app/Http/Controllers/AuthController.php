@@ -55,7 +55,7 @@ public function login(Request $request)
                 session()->put('user', $siswa);
                 return redirect('/siswa')->with('pesan', $this->swal('Berhasil', 'Berhasil login sebagai Siswa', 'success'));
             } elseif ($user->role === 'guru') {
-                 $guru = Guru::with(['user', 'verificator', 'seksipresensi'])
+                 $guru = Guru::with(['user', 'verificator', 'seksipresensi', 'tatausaha'])
             ->where('user_id', $user->id)
             ->first();
                 session()->put('user', $guru);

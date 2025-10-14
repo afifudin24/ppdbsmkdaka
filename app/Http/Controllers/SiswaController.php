@@ -77,7 +77,7 @@ class SiswaController extends Controller
             'judul' => 'My Profile',
             'user' => $siswa,
             'sekolah' => ProfileSekolahModel::first(),
-        ])
+        ]);
     }
     public function edit_foto(Request $request)
     {

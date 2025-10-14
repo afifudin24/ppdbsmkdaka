@@ -281,10 +281,18 @@ $format_tanggal = function ($tanggal) {
                                     <label class="form-label">Nama</label>
                                     <input type="text" name="nama" class="form-control" value="{{ $siswa->nama }}" required>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Jurusan</label>
-                                    <input type="text" name="jurusan" class="form-control" value="{{ $siswa->jurusan }}" required>
-                                </div>
+                               <div class="mb-3">
+    <label class="form-label">Jurusan</label>
+    <select name="jurusan" class="form-control" required>
+        <option value="">-- Pilih Jurusan --</option>
+        @foreach ($jurusan as $item)
+            <option value="{{ $item->nama }}" 
+                {{ $siswa->jurusan == $item->nama ? 'selected' : '' }}>
+                {{ $item->nama }}
+            </option>
+        @endforeach
+    </select>
+</div>
                                 <div class="mb-3">
                                     <label class="form-label">No Registrasi</label>
                                     <input type="text" name="no_regis" class="form-control" value="{{ $siswa->no_regis }}" required>
