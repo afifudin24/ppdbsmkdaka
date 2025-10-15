@@ -183,6 +183,46 @@ $format_tanggal = function ($tanggal) {
                     <th>Kehadiran</th>
                     <td>: {{ $siswa->datakehadiran[0]->agenda->nama_agenda ?? '-' }}</td>
                 </tr>
+                <tr>
+                    <th>Atribut</th>
+                    <td>
+                           @if($siswa->atribut && $siswa->atribut->count() > 0)
+                                    @php $atribut = $siswa->atribut->first(); @endphp
+                                    <p class="mb-1">
+                                        <strong>Tanggal Pengambilan:</strong>
+                                        {{ \Carbon\Carbon::parse($atribut->created_at)->translatedFormat('d F Y') }}
+                                    </p>
+                                    <p class="text-success fw-semibold mb-0">
+                                        ✅ Sudah mengambil atribut
+                                    </p>
+                                @else
+                                    <p class="text-danger fw-semibold mb-0">
+                                        ❌ Belum mengambil atribut
+                                    </p>
+                                @endif
+                    </td>
+                </tr>
+                <tr>
+                    <th>Daftar Ulang</th>
+                    <td>
+                       <ul class="list-group">
+    @foreach($siswa->daftarulang as $index => $item)
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">{{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}</div>
+                <div>Jumlah: <strong>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</strong></div>
+                <div>Keterangan: {{ $item->keterangan ?? '-' }}</div>
+            </div>
+            @if($item->status == 'lunas')
+                <span class="badge bg-success rounded-pill">Lunas</span>
+            @else
+                <span class="badge bg-warning text-dark rounded-pill">Cicil</span>
+            @endif
+        </li>
+    @endforeach
+</ul>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>

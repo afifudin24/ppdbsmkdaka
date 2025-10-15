@@ -130,7 +130,7 @@ $total_tidak_lulus = PendaftaranDetailModel::where('status', 2)
     
 
     // Query dasar dengan relasi pendaftaran
-    $query = SiswaModel::with('pendaftaran', 'datakehadiran.agenda')->where('referral_id', $user->id);
+    $query = SiswaModel::with('pendaftaran','daftarulang', 'atribut','datakehadiran.agenda')->where('referral_id', $user->id);
 
     // Jika ada filter status, tambahkan kondisi
     if ($status !== null && $status !== '') {

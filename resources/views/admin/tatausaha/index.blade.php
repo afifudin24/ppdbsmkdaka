@@ -5,13 +5,13 @@
         <div class="card-body px-4 py-3">
             <div class="row align-items-center">
                 <div class="col-9">
-                    <h4 class="fw-semibold mb-8">Data Seksi Presensi</h4>
+                    <h4 class="fw-semibold mb-8">Data Tata Usaha</h4>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a class="text-muted text-decoration-none" href="{{ url('/admin') }}">Master Data</a>
                             </li>
-                            <li class="breadcrumb-item" aria-current="page">Seksi Presensi</li>
+                            <li class="breadcrumb-item" aria-current="page">Tata Usaha</li>
                         </ol>
                     </nav>
                 </div>
